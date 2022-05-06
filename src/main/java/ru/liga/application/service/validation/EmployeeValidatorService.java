@@ -2,10 +2,13 @@ package ru.liga.application.service.validation;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.liga.application.common.ErrorMessage;
 import ru.liga.application.domain.entity.EmployeePosition;
 import ru.liga.application.domain.soap.employee.EmployeeDto;
 import ru.liga.application.service.EmployeePositionService;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static ru.liga.application.common.Message.POSITION_NOT_FOUND;
@@ -16,22 +19,47 @@ import static ru.liga.application.common.Message.SALARY_NOT_IN_POSITION_RANGE;
 public class EmployeeValidatorService {
     private final EmployeePositionService positionService;
 
-    public boolean validateRegistration(EmployeeDto employeeDto) {
-        validatePosition(employeeDto);
-        return employeeDto.getId() == 0 &&
-                employeeDto.getFirstname().isEmpty() &&
-                employeeDto.getLastname().isEmpty() &&
-                employeeDto.getPositionTitle().isEmpty() &&
-                employeeDto.getDepartmentTitle().isEmpty();
+    public List<String> validateRegistration(EmployeeDto employeeDto) {
+        List<String> messages = new ArrayList<>();
+        if (employeeDto.getId() != 0) {
+            messages.add(ErrorMessage.WRONG_ID_DURING_REGISTRATION);
+        }
+        validatePosition(employeeDto).ifPresent(messages::add);
+        messages.addAll(checkDtoEmptyFields(employeeDto));
+        return messages;
+
+//        return employeeDto.getId() == 0 &&
+//                !employeeDto.getFirstname().isEmpty() &&
+//                !employeeDto.getLastname().isEmpty() &&
+//                !employeeDto.getPositionTitle().isEmpty() &&
+//                !employeeDto.getDepartmentTitle().isEmpty();
     }
 
-    public boolean validateUpdate(EmployeeDto employeeDto) {
-        validatePosition(employeeDto);
-        return employeeDto.getId() != 0 &&
-                employeeDto.getFirstname().isEmpty() &&
-                employeeDto.getLastname().isEmpty() &&
-                employeeDto.getPositionTitle().isEmpty() &&
-                employeeDto.getDepartmentTitle().isEmpty();
+    public List<String> validateUpdate(EmployeeDto employeeDto) {
+        List<String> messages = new ArrayList<>();
+        if (employeeDto.getId() == 0) {
+            messages.add(ErrorMessage.WRONG_ID_DURING_UPDATE);
+        }
+        validatePosition(employeeDto).ifPresent(messages::add);
+        messages.addAll(checkDtoEmptyFields(employeeDto));
+        return messages;
+    }
+
+    private List<String> checkDtoEmptyFields(EmployeeDto employeeDto) {
+        List<String> messages = new ArrayList<>();
+        if (employeeDto.getFirstname().isEmpty()) {
+            messages.add(ErrorMessage.EMPTY_USERNAME);
+        }
+        if (employeeDto.getLastname().isEmpty()) {
+            messages.add(ErrorMessage.EMPTY_LASTNAME);
+        }
+        if (employeeDto.getPositionTitle().isEmpty()) {
+            messages.add(ErrorMessage.EMPTY_POSITION);
+        }
+        if (employeeDto.getDepartmentTitle().isEmpty()) {
+            messages.add(ErrorMessage.EMPTY_DEPARTMENT);
+        }
+        return messages;
     }
 
     private boolean checkWrongPositionSalary(EmployeePosition employeePosition, int salary) {
@@ -48,20 +76,20 @@ public class EmployeeValidatorService {
         );
     }
 
-    private boolean validatePosition(EmployeeDto employeeDto) {
+    private Optional<String> validatePosition(EmployeeDto employeeDto) {
         Optional<EmployeePosition> positionOptional =
                 positionService.findByTitleAndDepartmentTitle(
                         employeeDto.getPositionTitle(), employeeDto.getDepartmentTitle()
                 );
         if (positionOptional.isEmpty()) {
-            throw new IllegalArgumentException(POSITION_NOT_FOUND);
+            return Optional.of(POSITION_NOT_FOUND);
         }
         EmployeePosition employeePosition = positionOptional.get();
         int salary = employeeDto.getSalary();
         if (checkWrongPositionSalary(employeePosition, salary)) {
-            throw new IllegalArgumentException(getWrongSalaryMessage(employeePosition, salary));
+            return Optional.of(getWrongSalaryMessage(employeePosition, salary));
         }
-        return true;
+        return Optional.empty();
     }
 
 

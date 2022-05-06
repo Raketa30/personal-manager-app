@@ -11,8 +11,6 @@ import ru.liga.application.service.validation.EmployeeValidatorService;
 
 import java.util.List;
 
-import static ru.liga.application.common.Message.REQUEST_NOT_VALID;
-
 @Endpoint
 @RequiredArgsConstructor
 public class EmployeeEndpoint {
@@ -26,15 +24,15 @@ public class EmployeeEndpoint {
     public AddEmployeeResponse add(@RequestPayload AddEmployeeRequest request) {
         AddEmployeeResponse response = new AddEmployeeResponse();
         EmployeeDto employeeDto = request.getEmployeeDto();
-        String responseMessage;
-        if (validationService.validateRegistration(employeeDto)) {
-            responseMessage = employeeService.save(employeeDto);
+        List<String> errorMessages = validationService.validateRegistration(employeeDto);
+        if (errorMessages.isEmpty()) {
+            response.getResponseMessage().add(employeeService.update(employeeDto));
         } else {
-            responseMessage = REQUEST_NOT_VALID;
+            response.getResponseMessage().addAll(errorMessages);
         }
-        response.setResponseMessage(responseMessage);
         return response;
     }
+
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "deleteEmployeeRequest")
     @ResponsePayload
@@ -56,13 +54,12 @@ public class EmployeeEndpoint {
     public UpdateEmployeeResponse update(@RequestPayload UpdateEmployeeRequest request) {
         UpdateEmployeeResponse response = new UpdateEmployeeResponse();
         EmployeeDto employeeDto = request.getEmployeeDto();
-        String responseMessage;
-        if (validationService.validateUpdate(employeeDto)) {
-            responseMessage = employeeService.update(employeeDto);
+        List<String> errorMessages = validationService.validateUpdate(employeeDto);
+        if (errorMessages.isEmpty()) {
+            response.getResponseMessage().add(employeeService.update(employeeDto));
         } else {
-            responseMessage = REQUEST_NOT_VALID;
+            response.getResponseMessage().addAll(errorMessages);
         }
-        response.setResponseMessage(responseMessage);
         return response;
     }
 

@@ -8,4 +8,7 @@ public class Message {
     public static final String USER_CREATED_SUCCESSFULLY = "Пользователь успешно создан";
     public static final String USER_UPDATED_SUCCESSFULLY = "Пользователь успешно собновлен";
     public static final String REQUEST_NOT_VALID = "Неверный запрос, проверьте параметры запроса";
+
+    private Message() {
+    }
 }

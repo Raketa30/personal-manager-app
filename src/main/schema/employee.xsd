@@ -39,7 +39,7 @@
     <xs:element name="addEmployeeResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="responseMessage" type="xs:string"/>
+                <xs:element name="responseMessage" maxOccurs="unbounded" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -55,7 +55,7 @@
     <xs:element name="updateEmployeeResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="responseMessage" type="xs:string"/>
+                <xs:element name="responseMessage" maxOccurs="unbounded" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
@@ -71,7 +71,7 @@
     <xs:element name="deleteEmployeeResponse">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="responseMessage" type="xs:string"/>
+                <xs:element name="responseMessage" maxOccurs="unbounded" type="xs:string"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
