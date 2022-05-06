@@ -11,6 +11,8 @@ import ru.liga.application.service.validation.EmployeeValidatorService;
 
 import java.util.List;
 
+import static ru.liga.application.common.Message.REQUEST_NOT_VALID;
+
 @Endpoint
 @RequiredArgsConstructor
 public class EmployeeEndpoint {
@@ -32,7 +34,6 @@ public class EmployeeEndpoint {
         }
         return response;
     }
-
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "deleteEmployeeRequest")
     @ResponsePayload

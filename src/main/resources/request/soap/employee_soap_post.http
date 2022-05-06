@@ -19,29 +19,6 @@ SoapAction:
     </x:Body>
 </x:Envelope>
 
-### Пустые поля
-
-POST http://localhost:8080/wsdl/employee HTTP/1.1
-Content-Type: text/xml
-SoapAction:
-
-<x:Envelope xmlns:x="http://schemas.xmlsoap.org/soap/envelope/"
-            xmlns:gre="http://liga.ru/application/domain/soap/employee">
-
-    <x:Header/>
-    <x:Body>
-        <gre:addEmployeeRequest>
-            <gre:employeeDto>
-                <gre:firstname></gre:firstname>
-                <gre:lastname></gre:lastname>
-                <gre:salary>3333</gre:salary>
-                <gre:positionTitle></gre:positionTitle>
-                <gre:departmentTitle></gre:departmentTitle>
-            </gre:employeeDto>
-        </gre:addEmployeeRequest>
-    </x:Body>
-</x:Envelope>
-
 ###
 
 POST http://localhost:8080/wsdl/employee HTTP/1.1
