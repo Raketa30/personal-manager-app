@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:tns="http://liga.ru/application/domain/soap/employee"
+           targetNamespace="http://liga.ru/application/domain/soap/employee"
+           elementFormDefault="qualified">
+
+    <xs:complexType name="employeeDto">
+        <xs:sequence>
+            <xs:element name="id" type="xs:long"/>
+            <xs:element name="firstname" type="xs:string"/>
+            <xs:element name="lastname" type="xs:string"/>
+            <xs:element name="salary" type="xs:int"/>
+            <xs:element name="positionTitle" type="xs:string"/>
+            <xs:element name="departmentTitle" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:element name="getEmployeeListRequest">
+        <xs:complexType/>
+    </xs:element>
+
+    <xs:element name="getEmployeeListResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="employeeDtoList" maxOccurs="unbounded" type="tns:employeeDto"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="addEmployeeRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="employeeDto" type="tns:employeeDto"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="addEmployeeResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="responseMessage" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="updateEmployeeRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="employeeDto" type="tns:employeeDto"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="updateEmployeeResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="responseMessage" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="deleteEmployeeRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="employeeId" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="deleteEmployeeResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="responseMessage" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+</xs:schema>
