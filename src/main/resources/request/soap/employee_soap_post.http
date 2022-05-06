@@ -9,10 +9,10 @@ SoapAction:
     <x:Body>
         <gre:addEmployeeRequest>
             <gre:employeeDto>
-                <gre:firstname>фыввфывфы</gre:firstname>
-                <gre:lastname>фыввфывфы</gre:lastname>
-                <gre:salary>40000</gre:salary>
-                <gre:positionTitle>JUNIOR_DEVELOPER</gre:positionTitle>
+                <gre:firstname></gre:firstname>
+                <gre:lastname>Nado</gre:lastname>
+                <gre:salary>200000</gre:salary>
+                <gre:positionTitle>MANAGER</gre:positionTitle>
                 <gre:departmentTitle>CRM</gre:departmentTitle>
             </gre:employeeDto>
         </gre:addEmployeeRequest>
@@ -33,12 +33,43 @@ SoapAction:
     <gre:updateEmployeeRequest>
         <gre:employeeDto>
             <gre:id>1</gre:id>
-            <gre:firstname>Игорь</gre:firstname>
-            <gre:lastname>Кульгачев</gre:lastname>
-            <gre:salary>55000</gre:salary>
+            <gre:firstname>Dart</gre:firstname>
+            <gre:lastname>Veider</gre:lastname>
+            <gre:salary>550100</gre:salary>
             <gre:positionTitle>JUNIOR_DEVELOPER</gre:positionTitle>
             <gre:departmentTitle>CRM</gre:departmentTitle>
         </gre:employeeDto>
     </gre:updateEmployeeRequest>
 </x:Body>
+</x:Envelope>
+
+###
+POST http://localhost:8080/wsdl/employee HTTP/1.1
+Content-Type: text/xml
+SoapAction:
+
+<x:Envelope xmlns:x="http://schemas.xmlsoap.org/soap/envelope/"
+            xmlns:gre="http://liga.ru/application/domain/soap/employee">
+
+    <x:Header/>
+    <x:Body>
+        <gre:deleteEmployeeRequest>
+            <gre:employeeId>6</gre:employeeId>
+        </gre:deleteEmployeeRequest>
+    </x:Body>
+</x:Envelope>
+
+###
+POST http://localhost:8080/wsdl/employee HTTP/1.1
+Content-Type: text/xml
+SoapAction:
+
+<x:Envelope xmlns:x="http://schemas.xmlsoap.org/soap/envelope/"
+            xmlns:gre="http://liga.ru/application/domain/soap/employee">
+
+    <x:Header/>
+    <x:Body>
+        <gre:getEmployeeListRequest>
+        </gre:getEmployeeListRequest>
+    </x:Body>
 </x:Envelope>

@@ -12,8 +12,7 @@ import java.util.Optional;
 public class EmployeePositionService {
     private final EmployeePositionRepository positionRepository;
 
-    public Optional<EmployeePosition> findByTitleAndDepartmentTitle(String positionTitle,
-                                                                    String departmentTitle) {
+    public Optional<EmployeePosition> findByTitleAndDepartmentTitle(String positionTitle, String departmentTitle) {
         return positionRepository.findByTitleAndDepartmentTitle(positionTitle, departmentTitle);
     }
 }

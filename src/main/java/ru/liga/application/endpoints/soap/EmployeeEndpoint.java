@@ -7,7 +7,7 @@ import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import ru.liga.application.domain.soap.employee.*;
 import ru.liga.application.service.EmployeeService;
-import ru.liga.application.service.validator.EmployeeValidationService;
+import ru.liga.application.service.validation.EmployeeValidatorService;
 
 import java.util.List;
 
@@ -19,11 +19,11 @@ public class EmployeeEndpoint {
     private static final String NAMESPACE_URI = "http://liga.ru/application/domain/soap/employee";
 
     private final EmployeeService employeeService;
-    private final EmployeeValidationService validationService;
+    private final EmployeeValidatorService validationService;
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "addEmployeeRequest")
     @ResponsePayload
-    public AddEmployeeResponse addNewEmployee(@RequestPayload AddEmployeeRequest request) {
+    public AddEmployeeResponse add(@RequestPayload AddEmployeeRequest request) {
         AddEmployeeResponse response = new AddEmployeeResponse();
         EmployeeDto employeeDto = request.getEmployeeDto();
         String responseMessage;
@@ -36,9 +36,15 @@ public class EmployeeEndpoint {
         return response;
     }
 
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "deleteEmployeeRequest")
+    @ResponsePayload
+    public void delete(@RequestPayload DeleteEmployeeRequest request) {
+        employeeService.delete(request.getEmployeeId());
+    }
+
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getEmployeeListRequest")
     @ResponsePayload
-    public GetEmployeeListResponse getAllEmployeeList(@RequestPayload GetEmployeeListRequest request) {
+    public GetEmployeeListResponse getAll(@RequestPayload GetEmployeeListRequest request) {
         GetEmployeeListResponse response = new GetEmployeeListResponse();
         List<EmployeeDto> employeeDtoList = response.getEmployeeDtoList();
         employeeDtoList.addAll(employeeService.findAll());
@@ -47,7 +53,7 @@ public class EmployeeEndpoint {
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "updateEmployeeRequest")
     @ResponsePayload
-    public UpdateEmployeeResponse updateEmployee(@RequestPayload UpdateEmployeeRequest request) {
+    public UpdateEmployeeResponse update(@RequestPayload UpdateEmployeeRequest request) {
         UpdateEmployeeResponse response = new UpdateEmployeeResponse();
         EmployeeDto employeeDto = request.getEmployeeDto();
         String responseMessage;
