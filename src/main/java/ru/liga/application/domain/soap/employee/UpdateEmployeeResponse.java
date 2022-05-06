@@ -2,6 +2,8 @@
 package ru.liga.application.domain.soap.employee;
 
 import javax.xml.bind.annotation.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -14,7 +16,7 @@ import javax.xml.bind.annotation.*;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element name="responseMessage" type="{http://www.w3.org/2001/XMLSchema}string"/&gt;
+ *         &lt;element name="responseMessage" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -31,30 +33,35 @@ import javax.xml.bind.annotation.*;
 public class UpdateEmployeeResponse {
 
     @XmlElement(required = true)
-    protected String responseMessage;
+    protected List<String> responseMessage;
 
     /**
      * Gets the value of the responseMessage property.
      * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
-    public String getResponseMessage() {
-        return responseMessage;
-    }
-
-    /**
-     * Sets the value of the responseMessage property.
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the responseMessage property.
      * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getResponseMessage().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link String }
+     * 
+     * 
      */
-    public void setResponseMessage(String value) {
-        this.responseMessage = value;
+    public List<String> getResponseMessage() {
+        if (responseMessage == null) {
+            responseMessage = new ArrayList<String>();
+        }
+        return this.responseMessage;
     }
 
 }
