@@ -38,8 +38,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<EmployeeDto> findAll() {
         return employeeRepository.findAll()
                 .stream()
-                .map(mapper.getFunctionDtoToEntity())
+                .map(mapper.getFunctionDtoFromEntity())
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public EmployeeDto findById(long id) {
+        return employeeRepository.findById(id)
+                .map(mapper.getFunctionDtoFromEntity())
+                .orElseThrow(() -> new IllegalArgumentException(String.format(USER_NOT_FOUND, id)));
     }
 
     @Override
