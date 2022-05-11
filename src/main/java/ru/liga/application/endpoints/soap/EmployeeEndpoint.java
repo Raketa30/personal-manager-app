@@ -11,8 +11,6 @@ import ru.liga.application.service.validation.EmployeeValidatorService;
 
 import java.util.List;
 
-import static ru.liga.application.common.Message.REQUEST_NOT_VALID;
-
 @Endpoint
 @RequiredArgsConstructor
 public class EmployeeEndpoint {

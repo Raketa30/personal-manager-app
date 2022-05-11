@@ -11,6 +11,8 @@ public interface EmployeeService {
 
     Collection<EmployeeDto> findAll();
 
+    EmployeeDto findById(long id);
+
     String save(EmployeeDto employeeDto);
 
     String update(EmployeeDto employeeDto);
