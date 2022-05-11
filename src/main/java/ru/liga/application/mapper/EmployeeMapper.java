@@ -8,8 +8,8 @@ import ru.liga.application.domain.soap.employee.EmployeeDto;
 import java.util.function.Function;
 
 @Component
-public class EmployeeMapper {
-    public Employee build(EmployeeDto employeeDto, EmployeePosition employeePosition) {
+public class EmployeeMapper { //todo добавить интерфейс и обращаться через него
+    public Employee build(EmployeeDto employeeDto, EmployeePosition employeePosition) { //todo название. employeeDtoAndEmployeePositionToEmployee
         return Employee.builder()
                 .firstname(employeeDto.getFirstname())
                 .lastname(employeeDto.getLastname())
@@ -18,9 +18,9 @@ public class EmployeeMapper {
                 .build();
     }
 
-    public Function<Employee, EmployeeDto> getFunctionDtoToEntity() {
+    public Function<Employee, EmployeeDto> getFunctionDtoToEntity() { //todo название. Лучше employeeDtoToEmployee. Хотя мне не нравиться что возвращает Function
         return employee -> {
-            EmployeeDto employeeDto = new EmployeeDto();
+            EmployeeDto employeeDto = new EmployeeDto(); //todo можно ли добавить builder ?
             employeeDto.setId(employee.getId());
             employeeDto.setFirstname(employee.getFirstname());
             employeeDto.setLastname(employee.getLastname());
@@ -31,7 +31,7 @@ public class EmployeeMapper {
         };
     }
 
-    public Employee update(EmployeeDto employeeDto, EmployeePosition employeePosition) {
+    public Employee update(EmployeeDto employeeDto, EmployeePosition employeePosition) { //todo почему в mapper update ?
         return Employee.builder()
                 .id(employeeDto.getId())
                 .firstname(employeeDto.getFirstname())

@@ -16,18 +16,19 @@ import static ru.liga.application.common.Message.SALARY_NOT_IN_POSITION_RANGE;
 
 @Service
 @RequiredArgsConstructor
-public class EmployeeValidatorService {
+public class EmployeeValidatorService { //todo добавь интерфейс и обращайся через него
     private final EmployeePositionService positionService;
 
     public List<String> validateRegistration(EmployeeDto employeeDto) {
         List<String> messages = new ArrayList<>();
-        if (employeeDto.getId() != 0) {
+        if (employeeDto.getId() != 0) { //todo волшебное значение. Вынести в константу + NPE не вылетит ?
             messages.add(ErrorMessage.WRONG_ID_DURING_REGISTRATION);
         }
-        validatePosition(employeeDto).ifPresent(messages::add);
+        validatePosition(employeeDto).ifPresent(messages::add);//todo попробуй сделать без Optional
         messages.addAll(checkDtoEmptyFields(employeeDto));
         return messages;
 
+        //todo не оставляй комменты в коде. Такие комметы могут сбивать с толку
 //        return employeeDto.getId() == 0 &&
 //                !employeeDto.getFirstname().isEmpty() &&
 //                !employeeDto.getLastname().isEmpty() &&
@@ -37,10 +38,10 @@ public class EmployeeValidatorService {
 
     public List<String> validateUpdate(EmployeeDto employeeDto) {
         List<String> messages = new ArrayList<>();
-        if (employeeDto.getId() == 0) {
+        if (employeeDto.getId() == 0) { //todo волшебное значение. Вынести в константу + NPE не вылетит ?
             messages.add(ErrorMessage.WRONG_ID_DURING_UPDATE);
         }
-        validatePosition(employeeDto).ifPresent(messages::add);
+        validatePosition(employeeDto).ifPresent(messages::add); //todo попробуй сделать без Optional
         messages.addAll(checkDtoEmptyFields(employeeDto));
         return messages;
     }
@@ -63,7 +64,7 @@ public class EmployeeValidatorService {
     }
 
     private boolean checkWrongPositionSalary(EmployeePosition employeePosition, int salary) {
-        return salary < employeePosition.getMinSalary()
+        return salary < employeePosition.getMinSalary() //todo лишний перенос
                 || salary > employeePosition.getMaxSalary();
     }
 

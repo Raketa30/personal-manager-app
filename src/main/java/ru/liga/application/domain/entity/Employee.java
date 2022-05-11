@@ -20,11 +20,11 @@ public class Employee {
     private Long id;
 
     @Column(name = "firstname")
-    @NotBlank(message = "Имя обязательно")
+    @NotBlank(message = "Имя обязательно") //todo оставлять русские слова в коде плохая практика. Используй ResourceBundle. Можно посмотреть в fccr класс MessageService
     private String firstname;
 
     @Column(name = "lastname")
-    @NotBlank(message = "Фамилия обязательно")
+    @NotBlank(message = "Фамилия обязательно") //todo оставлять русские слова в коде плохая практика. Используй ResourceBundle. Можно посмотреть в fccr класс MessageService
     private String lastname;
 
     @Column(name = "salary")

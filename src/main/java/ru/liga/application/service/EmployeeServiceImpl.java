@@ -45,11 +45,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     @Transactional
     public String save(EmployeeDto employeeDto) {
-        Optional<EmployeePosition> positionOptional =
-                positionService.findByTitleAndDepartmentTitle(
-                        employeeDto.getPositionTitle(), employeeDto.getDepartmentTitle()
-                );
-        Employee createdEmployee = mapper.build(employeeDto, positionOptional
+        Optional<EmployeePosition> positionOptional = positionService.findByTitleAndDepartmentTitle(
+                        employeeDto.getPositionTitle(), employeeDto.getDepartmentTitle());
+        Employee createdEmployee = mapper.build(employeeDto, positionOptional //todo positionOptional вынести в отдельную переменную
                 .orElseThrow(() -> new IllegalArgumentException(POSITION_NOT_FOUND)));
         employeeRepository.save(createdEmployee);
         return USER_CREATED_SUCCESSFULLY;
@@ -58,11 +56,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     @Transactional
     public String update(EmployeeDto employeeDto) {
-        Optional<EmployeePosition> positionOptional =
+        Optional<EmployeePosition> positionOptional = //todo посмотри, как лучше в этом классе на строке 48-49. Так меньше используемых строк
                 positionService.findByTitleAndDepartmentTitle(
                         employeeDto.getPositionTitle(), employeeDto.getDepartmentTitle()
                 );
-        Employee updatedEmployee = mapper.update(employeeDto, positionOptional
+        Employee updatedEmployee = mapper.update(employeeDto, positionOptional //todo positionOptional вынести в отдельную переменную
                 .orElseThrow(() -> new IllegalArgumentException(POSITION_NOT_FOUND)));
         employeeRepository.save(updatedEmployee);
         return USER_UPDATED_SUCCESSFULLY;

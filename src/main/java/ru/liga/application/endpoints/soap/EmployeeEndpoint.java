@@ -27,8 +27,8 @@ public class EmployeeEndpoint {
         AddEmployeeResponse response = new AddEmployeeResponse();
         EmployeeDto employeeDto = request.getEmployeeDto();
         List<String> errorMessages = validationService.validateRegistration(employeeDto);
-        if (errorMessages.isEmpty()) {
-            response.getResponseMessage().add(employeeService.save(employeeDto));
+        if (errorMessages.isEmpty()) { //todo думаю стоит, как нибудь переработать, чтоб убрать if
+            response.getResponseMessage().add(employeeService.save(employeeDto)); //todo вызов внутри скобок не оч, вынести лучше
         } else {
             response.getResponseMessage().addAll(errorMessages);
         }
@@ -56,8 +56,8 @@ public class EmployeeEndpoint {
         UpdateEmployeeResponse response = new UpdateEmployeeResponse();
         EmployeeDto employeeDto = request.getEmployeeDto();
         List<String> errorMessages = validationService.validateUpdate(employeeDto);
-        if (errorMessages.isEmpty()) {
-            response.getResponseMessage().add(employeeService.update(employeeDto));
+        if (errorMessages.isEmpty()) { //todo думаю стоит, как нибудь переработать, чтоб убрать if
+            response.getResponseMessage().add(employeeService.update(employeeDto)); //todo вызов внутри скобок не оч, вынести лучше
         } else {
             response.getResponseMessage().addAll(errorMessages);
         }

@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface DepartmentRepository extends JpaRepository<Department, Long> {
-    Optional<Department> findDepartmentByTitle(String title);
+    Optional<Department> findDepartmentByTitle(String title); //todo этот метод в JpaRepository нет ?
 }

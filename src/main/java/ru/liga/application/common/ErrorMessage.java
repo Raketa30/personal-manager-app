@@ -1,6 +1,8 @@
 package ru.liga.application.common;
 
 public class ErrorMessage {
+    //todo оставлять русские слова в коде плохая практика. Используй ResourceBundle. Можно посмотреть в fccr класс MessageService
+
     public static final String WRONG_ID_DURING_REGISTRATION = "При регистрации оставьте поле Id пустым";
     public static final String EMPTY_USERNAME = "Имя не заполнено";
     public static final String EMPTY_LASTNAME = "Фамилия не заполнена";

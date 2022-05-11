@@ -12,7 +12,7 @@ import java.util.Optional;
 public class DepartmentService {
     private final DepartmentRepository departmentRepository;
 
-    public Optional<Department> findDepartmentByTitle(String departmentTitle) {
+    public Optional<Department> findDepartmentByTitle(String departmentTitle) { //todo не используется
         return departmentRepository.findDepartmentByTitle(departmentTitle);
     }
 }
