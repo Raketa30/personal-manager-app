@@ -8,6 +8,13 @@ public class Message {
     public static final String USER_CREATED_SUCCESSFULLY = "Пользователь успешно создан";
     public static final String USER_UPDATED_SUCCESSFULLY = "Пользователь успешно собновлен";
     public static final String REQUEST_NOT_VALID = "Неверный запрос, проверьте параметры запроса";
+    public static final String WRONG_ID_DURING_REGISTRATION = "При регистрации оставьте поле Id пустым";
+    public static final String EMPTY_USERNAME = "Имя не заполнено";
+    public static final String EMPTY_LASTNAME = "Фамилия не заполнена";
+    public static final String EMPTY_POSITION = "Должность не заполнена";
+    public static final String EMPTY_DEPARTMENT = "Департамент не заполнен";
+    public static final String WRONG_ID_DURING_UPDATE = "Укажите Id обновляемого пользователя";
+    public static final String USER_NOT_FOUND = "Пользователь с id = %d не найден";
 
     private Message() {
     }

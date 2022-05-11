@@ -1,3 +1,4 @@
+### создание рабочего
 POST http://localhost:8080/wsdl/employee HTTP/1.1
 Content-Type: text/xml
 SoapAction:
@@ -19,8 +20,7 @@ SoapAction:
     </x:Body>
 </x:Envelope>
 
-###
-
+### обновление
 POST http://localhost:8080/wsdl/employee HTTP/1.1
 Content-Type: text/xml
 SoapAction:
@@ -32,10 +32,10 @@ SoapAction:
 <x:Body>
     <gre:updateEmployeeRequest>
         <gre:employeeDto>
-            <gre:id>1</gre:id>
+            <gre:id>37</gre:id>
             <gre:firstname>Dart</gre:firstname>
             <gre:lastname>Veider</gre:lastname>
-            <gre:salary>550100</gre:salary>
+            <gre:salary>55000</gre:salary>
             <gre:positionTitle>JUNIOR_DEVELOPER</gre:positionTitle>
             <gre:departmentTitle>CRM</gre:departmentTitle>
         </gre:employeeDto>
@@ -43,7 +43,7 @@ SoapAction:
 </x:Body>
 </x:Envelope>
 
-###
+### удаление рабочего по id
 POST http://localhost:8080/wsdl/employee HTTP/1.1
 Content-Type: text/xml
 SoapAction:
@@ -59,7 +59,7 @@ SoapAction:
     </x:Body>
 </x:Envelope>
 
-###
+### Весь список рабочих
 POST http://localhost:8080/wsdl/employee HTTP/1.1
 Content-Type: text/xml
 SoapAction:
@@ -71,5 +71,20 @@ SoapAction:
     <x:Body>
         <gre:getEmployeeListRequest>
         </gre:getEmployeeListRequest>
+    </x:Body>
+</x:Envelope>
+
+### поиск рабочего по id
+POST http://localhost:8080/wsdl/employee HTTP/1.1
+Content-Type: text/xml
+SoapAction:
+
+<x:Envelope xmlns:x="http://schemas.xmlsoap.org/soap/envelope/"
+            xmlns:gre="http://liga.ru/application/domain/soap/employee">
+    <x:Header/>
+    <x:Body>
+        <gre:getEmployeeByIdRequest>
+            <gre:employeeId>37</gre:employeeId>
+        </gre:getEmployeeByIdRequest>
     </x:Body>
 </x:Envelope>

@@ -28,6 +28,22 @@
         </xs:complexType>
     </xs:element>
 
+    <xs:element name="getEmployeeByIdRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="employeeId" type="xs:long"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getEmployeeByIdResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="employeeDto" type="tns:employeeDto"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
     <xs:element name="addEmployeeRequest">
         <xs:complexType>
             <xs:sequence>

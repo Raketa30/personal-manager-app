@@ -2,7 +2,6 @@ package ru.liga.application.service.validation;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.liga.application.common.ErrorMessage;
 import ru.liga.application.domain.entity.EmployeePosition;
 import ru.liga.application.domain.soap.employee.EmployeeDto;
 import ru.liga.application.service.EmployeePositionService;
@@ -11,8 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static ru.liga.application.common.Message.POSITION_NOT_FOUND;
-import static ru.liga.application.common.Message.SALARY_NOT_IN_POSITION_RANGE;
+import static ru.liga.application.common.Message.*;
 
 @Service
 @RequiredArgsConstructor
@@ -22,23 +20,17 @@ public class EmployeeValidatorService {
     public List<String> validateRegistration(EmployeeDto employeeDto) {
         List<String> messages = new ArrayList<>();
         if (employeeDto.getId() != 0) {
-            messages.add(ErrorMessage.WRONG_ID_DURING_REGISTRATION);
+            messages.add(WRONG_ID_DURING_REGISTRATION);
         }
         validatePosition(employeeDto).ifPresent(messages::add);
         messages.addAll(checkDtoEmptyFields(employeeDto));
         return messages;
-
-//        return employeeDto.getId() == 0 &&
-//                !employeeDto.getFirstname().isEmpty() &&
-//                !employeeDto.getLastname().isEmpty() &&
-//                !employeeDto.getPositionTitle().isEmpty() &&
-//                !employeeDto.getDepartmentTitle().isEmpty();
     }
 
     public List<String> validateUpdate(EmployeeDto employeeDto) {
         List<String> messages = new ArrayList<>();
         if (employeeDto.getId() == 0) {
-            messages.add(ErrorMessage.WRONG_ID_DURING_UPDATE);
+            messages.add(WRONG_ID_DURING_UPDATE);
         }
         validatePosition(employeeDto).ifPresent(messages::add);
         messages.addAll(checkDtoEmptyFields(employeeDto));
@@ -48,23 +40,23 @@ public class EmployeeValidatorService {
     private List<String> checkDtoEmptyFields(EmployeeDto employeeDto) {
         List<String> messages = new ArrayList<>();
         if (employeeDto.getFirstname().isEmpty()) {
-            messages.add(ErrorMessage.EMPTY_USERNAME);
+            messages.add(EMPTY_USERNAME);
         }
         if (employeeDto.getLastname().isEmpty()) {
-            messages.add(ErrorMessage.EMPTY_LASTNAME);
+            messages.add(EMPTY_LASTNAME);
         }
         if (employeeDto.getPositionTitle().isEmpty()) {
-            messages.add(ErrorMessage.EMPTY_POSITION);
+            messages.add(EMPTY_POSITION);
         }
         if (employeeDto.getDepartmentTitle().isEmpty()) {
-            messages.add(ErrorMessage.EMPTY_DEPARTMENT);
+            messages.add(EMPTY_DEPARTMENT);
         }
         return messages;
     }
 
     private boolean checkWrongPositionSalary(EmployeePosition employeePosition, int salary) {
-        return salary < employeePosition.getMinSalary()
-                || salary > employeePosition.getMaxSalary();
+        return salary < employeePosition.getMinSalary() ||
+                salary > employeePosition.getMaxSalary();
     }
 
     private String getWrongSalaryMessage(EmployeePosition employeePosition, int salary) {

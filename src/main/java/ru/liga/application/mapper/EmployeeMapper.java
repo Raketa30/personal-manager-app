@@ -18,7 +18,7 @@ public class EmployeeMapper {
                 .build();
     }
 
-    public Function<Employee, EmployeeDto> getFunctionDtoToEntity() {
+    public Function<Employee, EmployeeDto> getFunctionDtoFromEntity() {
         return employee -> {
             EmployeeDto employeeDto = new EmployeeDto();
             employeeDto.setId(employee.getId());
@@ -30,6 +30,7 @@ public class EmployeeMapper {
             return employeeDto;
         };
     }
+
 
     public Employee update(EmployeeDto employeeDto, EmployeePosition employeePosition) {
         return Employee.builder()

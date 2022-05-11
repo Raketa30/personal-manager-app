@@ -54,6 +54,22 @@ public class ObjectFactory {
     }
 
     /**
+     * Create an instance of {@link GetEmployeeByIdRequest }
+     * 
+     */
+    public GetEmployeeByIdRequest createGetEmployeeByIdRequest() {
+        return new GetEmployeeByIdRequest();
+    }
+
+    /**
+     * Create an instance of {@link GetEmployeeByIdResponse }
+     * 
+     */
+    public GetEmployeeByIdResponse createGetEmployeeByIdResponse() {
+        return new GetEmployeeByIdResponse();
+    }
+
+    /**
      * Create an instance of {@link AddEmployeeRequest }
      * 
      */

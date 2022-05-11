@@ -11,8 +11,6 @@ import ru.liga.application.service.validation.EmployeeValidatorService;
 
 import java.util.List;
 
-import static ru.liga.application.common.Message.REQUEST_NOT_VALID;
-
 @Endpoint
 @RequiredArgsConstructor
 public class EmployeeEndpoint {
@@ -47,6 +45,14 @@ public class EmployeeEndpoint {
         GetEmployeeListResponse response = new GetEmployeeListResponse();
         List<EmployeeDto> employeeDtoList = response.getEmployeeDtoList();
         employeeDtoList.addAll(employeeService.findAll());
+        return response;
+    }
+
+    @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getEmployeeByIdRequest")
+    @ResponsePayload
+    public GetEmployeeByIdResponse getById(@RequestPayload GetEmployeeByIdRequest request) {
+        GetEmployeeByIdResponse response = new GetEmployeeByIdResponse();
+        response.setEmployeeDto(employeeService.findById(request.getEmployeeId()));
         return response;
     }
 
