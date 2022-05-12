@@ -109,12 +109,4 @@ public class ObjectFactory {
         return new DeleteEmployeeRequest();
     }
 
-    /**
-     * Create an instance of {@link DeleteEmployeeResponse }
-     * 
-     */
-    public DeleteEmployeeResponse createDeleteEmployeeResponse() {
-        return new DeleteEmployeeResponse();
-    }
-
 }

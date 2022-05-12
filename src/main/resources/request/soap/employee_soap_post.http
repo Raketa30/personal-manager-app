@@ -10,9 +10,9 @@ SoapAction:
     <x:Body>
         <gre:addEmployeeRequest>
             <gre:employeeDto>
-                <gre:firstname>Huli Nado</gre:firstname>
-                <gre:lastname>AA</gre:lastname>
-                <gre:salary>190000</gre:salary>
+                <gre:firstname></gre:firstname>
+                <gre:lastname></gre:lastname>
+                <gre:salary>1900000</gre:salary>
                 <gre:positionTitle>MANAGER</gre:positionTitle>
                 <gre:departmentTitle>CRM</gre:departmentTitle>
             </gre:employeeDto>

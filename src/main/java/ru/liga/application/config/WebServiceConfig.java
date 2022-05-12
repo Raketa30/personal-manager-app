@@ -30,8 +30,7 @@ public class WebServiceConfig extends WsConfigurerAdapter {
     }
 
     @Bean
-    public ServletRegistrationBean messageDispatcherServlet(ApplicationContext
-                                                                    applicationContext) {
+    public ServletRegistrationBean messageDispatcherServlet(ApplicationContext applicationContext) {
         MessageDispatcherServlet servlet = new MessageDispatcherServlet();
         servlet.setApplicationContext(applicationContext);
         servlet.setTransformWsdlLocations(true);
@@ -41,6 +40,8 @@ public class WebServiceConfig extends WsConfigurerAdapter {
     @Bean
     @SneakyThrows
     public XsdSchema xsdSchema() {
-        return new SimpleXsdSchema(new InputStreamResource(new FileInputStream("src/main/schema/employee.xsd")));
+        return new SimpleXsdSchema(
+                new InputStreamResource(
+                        new FileInputStream("src/main/schema/employee.xsd")));
     }
 }

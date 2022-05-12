@@ -24,7 +24,7 @@ public class EmployeePosition {
     private Long id;
 
     @Column(name = "title")
-    @NotBlank(message = "Название должности обязательно") //todo оставлять русские слова в коде плохая практика. Используй ResourceBundle. Можно посмотреть в fccr класс MessageService
+    @NotBlank(message = "${entity.validation.position.title}")
     private String title;
 
     @Column(name = "min_salary")
