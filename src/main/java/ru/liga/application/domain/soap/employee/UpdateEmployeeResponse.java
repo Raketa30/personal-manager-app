@@ -2,8 +2,6 @@
 package ru.liga.application.domain.soap.employee;
 
 import javax.xml.bind.annotation.*;
-import java.util.ArrayList;
-import java.util.List;
 
 
 /**
@@ -16,7 +14,7 @@ import java.util.List;
  *   &lt;complexContent&gt;
  *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType"&gt;
  *       &lt;sequence&gt;
- *         &lt;element name="responseMessage" type="{http://www.w3.org/2001/XMLSchema}string" maxOccurs="unbounded"/&gt;
+ *         &lt;element name="employeeDto" type="{http://liga.ru/application/domain/soap/employee}employeeDto"/&gt;
  *       &lt;/sequence&gt;
  *     &lt;/restriction&gt;
  *   &lt;/complexContent&gt;
@@ -27,41 +25,36 @@ import java.util.List;
  */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "responseMessage"
+    "employeeDto"
 })
 @XmlRootElement(name = "updateEmployeeResponse")
 public class UpdateEmployeeResponse {
 
     @XmlElement(required = true)
-    protected List<String> responseMessage;
+    protected EmployeeDto employeeDto;
 
     /**
-     * Gets the value of the responseMessage property.
+     * Gets the value of the employeeDto property.
      * 
-     * <p>
-     * This accessor method returns a reference to the live list,
-     * not a snapshot. Therefore any modification you make to the
-     * returned list will be present inside the JAXB object.
-     * This is why there is not a <CODE>set</CODE> method for the responseMessage property.
-     * 
-     * <p>
-     * For example, to add a new item, do as follows:
-     * <pre>
-     *    getResponseMessage().add(newItem);
-     * </pre>
-     * 
-     * 
-     * <p>
-     * Objects of the following type(s) are allowed in the list
-     * {@link String }
-     * 
-     * 
+     * @return
+     *     possible object is
+     *     {@link EmployeeDto }
+     *     
      */
-    public List<String> getResponseMessage() {
-        if (responseMessage == null) {
-            responseMessage = new ArrayList<String>();
-        }
-        return this.responseMessage;
+    public EmployeeDto getEmployeeDto() {
+        return employeeDto;
+    }
+
+    /**
+     * Sets the value of the employeeDto property.
+     * 
+     * @param value
+     *     allowed object is
+     *     {@link EmployeeDto }
+     *     
+     */
+    public void setEmployeeDto(EmployeeDto value) {
+        this.employeeDto = value;
     }
 
 }

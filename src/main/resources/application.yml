@@ -18,3 +18,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+scheduler:
+  oneminute:
+    cron: 0/60 * * * * *

@@ -24,7 +24,7 @@ public class Department {
     private Long id;
 
     @Column(name = "title")
-    @NotBlank(message = "Название департамента обязательно")   //todo оставлять русские слова в коде плохая практика. Используй ResourceBundle. Можно посмотреть в fccr класс MessageService
+    @NotBlank(message = "${entity.validation.department.title}")
     private String title;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "department")

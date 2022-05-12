@@ -60,12 +60,12 @@ sourceSets {
 task dockerComposeUp(type: Exec) {
     group = "quick-start"
     commandLine 'docker-compose', '-f', 'docker/docker-compose.yml', 'up', '--build', '-d'
-    sleep(2000)
+    sleep(3000)
 }
 
 task quickStart(type: GradleBuild) {
     group = "quick-start"
-    tasks = ['clean', 'bootJar', 'dockerComposeUpLocal']
+    tasks = ['clean', 'bootJar', 'dockerComposeUp']
 }
 
 

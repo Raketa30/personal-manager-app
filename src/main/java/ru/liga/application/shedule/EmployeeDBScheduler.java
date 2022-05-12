@@ -1,16 +1,16 @@
 package ru.liga.application.shedule;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
-import ru.liga.application.service.EmployeeService;
+import ru.liga.application.api.EmployeeService;
 
-@Component //todo Лучше использовать Configuration
+@Configuration
 @RequiredArgsConstructor
 public class EmployeeDBScheduler {
     private final EmployeeService employeeService;
 
-    @Scheduled(cron = "0/60 * * * * *") //todo  такие конфиги желательное хранить в проперти
+    @Scheduled(cron = "${scheduler.oneminute.cron}")
     public void deleteLastRow() {
         employeeService.deleteLastRow();
     }

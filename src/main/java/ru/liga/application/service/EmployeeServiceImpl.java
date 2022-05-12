@@ -3,24 +3,27 @@ package ru.liga.application.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.liga.application.api.EmployeeService;
 import ru.liga.application.domain.entity.Employee;
 import ru.liga.application.domain.entity.EmployeePosition;
 import ru.liga.application.domain.soap.employee.EmployeeDto;
-import ru.liga.application.mapper.EmployeeMapper;
+import ru.liga.application.mapper.EmployeeMapperImpl;
 import ru.liga.application.repository.EmployeeRepository;
+import ru.liga.application.service.validation.ValidatorService;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
-import static ru.liga.application.common.Message.*;
+import static ru.liga.application.common.Message.EMPLOYEE_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final EmployeePositionService positionService;
-    private final EmployeeMapper mapper;
+    private final MessageService messageService;
+    private final EmployeeMapperImpl mapper;
+    private final ValidatorService validationService;
 
     @Override
     @Transactional
@@ -38,40 +41,63 @@ public class EmployeeServiceImpl implements EmployeeService {
     public List<EmployeeDto> findAll() {
         return employeeRepository.findAll()
                 .stream()
-                .map(mapper.getFunctionDtoFromEntity())
+                .map(mapper::employeeToEmployeeDto)
                 .collect(Collectors.toList());
     }
 
     @Override
     public EmployeeDto findById(long id) {
         return employeeRepository.findById(id)
-                .map(mapper.getFunctionDtoFromEntity())
-                .orElseThrow(() -> new IllegalArgumentException(String.format(USER_NOT_FOUND, id)));
+                .map(mapper::employeeToEmployeeDto)
+                .orElseThrow(() -> {
+                    String message = messageService.getMessage(EMPLOYEE_NOT_FOUND);
+                    return new IllegalArgumentException(String.format(message, id));
+                });
     }
 
     @Override
     @Transactional
-    public String save(EmployeeDto employeeDto) {
-        Optional<EmployeePosition> positionOptional = positionService.findByTitleAndDepartmentTitle(
-                        employeeDto.getPositionTitle(), employeeDto.getDepartmentTitle());
-        Employee createdEmployee = mapper.build(employeeDto, positionOptional //todo positionOptional вынести в отдельную переменную
-                .orElseThrow(() -> new IllegalArgumentException(POSITION_NOT_FOUND)));
-        employeeRepository.save(createdEmployee);
-        return USER_CREATED_SUCCESSFULLY;
+    public EmployeeDto save(EmployeeDto employeeDto) {
+        validateRegistrationDto(employeeDto);
+        Employee createdEmployee = mapper.employeeDtoToEmployee(employeeDto);
+        EmployeePosition employeePosition = findEmployeePosition(employeeDto);
+        createdEmployee.setEmployeePosition(employeePosition);
+        Employee employee = employeeRepository.save(createdEmployee);
+        return mapper.employeeToEmployeeDto(employee);
     }
 
     @Override
     @Transactional
-    public String update(EmployeeDto employeeDto) {
-        Optional<EmployeePosition> positionOptional = //todo посмотри, как лучше в этом классе на строке 48-49. Так меньше используемых строк
-                positionService.findByTitleAndDepartmentTitle(
-                        employeeDto.getPositionTitle(), employeeDto.getDepartmentTitle()
-                );
-        Employee updatedEmployee = mapper.update(employeeDto, positionOptional //todo positionOptional вынести в отдельную переменную
-                .orElseThrow(() -> new IllegalArgumentException(POSITION_NOT_FOUND)));
-        employeeRepository.save(updatedEmployee);
-        return USER_UPDATED_SUCCESSFULLY;
+    public EmployeeDto update(EmployeeDto employeeDto) {
+        validateUpdateDto(employeeDto);
+        Employee createdEmployee = mapper.employeeDtoToEmployee(employeeDto);
+        EmployeePosition employeePosition = findEmployeePosition(employeeDto);
+        createdEmployee.setEmployeePosition(employeePosition);
+        Employee employee = employeeRepository.save(createdEmployee);
+        return mapper.employeeToEmployeeDto(employee);
     }
 
+    private String buildExceptionMessage(List<String> invalidMessageList) {
+        StringBuilder sb = new StringBuilder();
+        invalidMessageList.forEach(err -> sb.append(err).append("\n"));
+        return sb.toString();
+    }
 
+    private EmployeePosition findEmployeePosition(EmployeeDto dto) {
+        return positionService.findByTitleAndDepartmentTitle(dto.getPositionTitle(), dto.getDepartmentTitle());
+    }
+
+    private void validateRegistrationDto(EmployeeDto employeeDto) {
+        List<String> invalidMessageList = validationService.validateRegistration(employeeDto);
+        if (!invalidMessageList.isEmpty()) {
+            throw new IllegalArgumentException(buildExceptionMessage(invalidMessageList));
+        }
+    }
+
+    private void validateUpdateDto(EmployeeDto employeeDto) {
+        List<String> invalidMessageList = validationService.validateUpdate(employeeDto);
+        if (!invalidMessageList.isEmpty()) {
+            throw new IllegalArgumentException(buildExceptionMessage(invalidMessageList));
+        }
+    }
 }
