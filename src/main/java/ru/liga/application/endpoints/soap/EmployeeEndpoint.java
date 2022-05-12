@@ -44,7 +44,8 @@ public class EmployeeEndpoint {
     @ResponsePayload
     public GetEmployeeByIdResponse getById(@RequestPayload GetEmployeeByIdRequest request) {
         GetEmployeeByIdResponse response = new GetEmployeeByIdResponse();
-        response.setEmployeeDto(employeeService.findById(request.getEmployeeId()));
+        EmployeeDto employeeDto = employeeService.findById(request.getEmployeeId());
+        response.setEmployeeDto(employeeDto);
         return response;
     }
 
