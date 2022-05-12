@@ -9,7 +9,7 @@ import static ru.liga.application.common.Message.POSITION_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
-public class EmployeePositionService {
+public class EmployeePositionService { //todo добавить интерфейс и использовать через него
     private final EmployeePositionRepository positionRepository;
     private final MessageService messageService;
 
@@ -17,7 +17,7 @@ public class EmployeePositionService {
         return positionRepository.findByTitleAndDepartmentTitle(positionTitle, departmentTitle)
                 .orElseThrow(() -> {
                     String message = messageService.getMessage(POSITION_NOT_FOUND);
-                    return new IllegalArgumentException(message);
+                    return new IllegalArgumentException(message); //todo сделай свой Exception + чтоб он был Checked
                 });
     }
 }

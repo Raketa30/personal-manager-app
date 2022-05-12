@@ -18,7 +18,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
-
+#todo слово раздельно пишется))
 scheduler:
   oneminute:
     cron: 0/60 * * * * *

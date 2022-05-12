@@ -1,5 +1,6 @@
 package ru.liga.application.endpoints.soap;
-
+//todo в названии пакетов не принято писать множественное число + порядок другой от большего к меньшему.
+// У тебя наоборот.
 import lombok.RequiredArgsConstructor;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;

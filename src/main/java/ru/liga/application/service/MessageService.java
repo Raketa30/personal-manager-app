@@ -7,7 +7,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import java.util.Locale;
 
 @RequiredArgsConstructor
-public class MessageService {
+public class MessageService { //todo добавить интерфейс и использовать через него
     public static final Locale LOCALE_RU = new Locale("ru", "RU");
 
     private final ResourceBundleMessageSource messageSource;

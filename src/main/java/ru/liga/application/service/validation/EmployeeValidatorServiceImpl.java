@@ -23,7 +23,7 @@ public class EmployeeValidatorServiceImpl implements ValidatorService {
     @Override
     public List<String> validateRegistration(EmployeeDto employeeDto) {
         List<String> messages = new ArrayList<>();
-        if (employeeDto.getId() != NEW_USER_ID) {
+        if (employeeDto.getId() != NEW_USER_ID) { //todo в отдельный чекер
             messages.add(messageService.getMessage(WRONG_ID_DURING_REGISTRATION));
         }
         messages.addAll(validatePosition(employeeDto));
@@ -34,7 +34,7 @@ public class EmployeeValidatorServiceImpl implements ValidatorService {
     @Override
     public List<String> validateUpdate(EmployeeDto employeeDto) {
         List<String> messages = new ArrayList<>();
-        if (employeeDto.getId() == NEW_USER_ID) {
+        if (employeeDto.getId() == NEW_USER_ID) { //todo в отдельный чекер
             messages.add(messageService.getMessage(WRONG_ID_DURING_UPDATE));
         }
         messages.addAll(validatePosition(employeeDto));
@@ -42,6 +42,7 @@ public class EmployeeValidatorServiceImpl implements ValidatorService {
         return messages;
     }
 
+    //todo чекеры в отдельный класс
     private List<String> checkDtoEmptyFields(EmployeeDto employeeDto) {
         List<String> messages = new ArrayList<>();
         if (employeeDto.getFirstname().isEmpty()) {
@@ -75,8 +76,7 @@ public class EmployeeValidatorServiceImpl implements ValidatorService {
 
     private List<String> validatePosition(EmployeeDto employeeDto) {
         EmployeePosition employeePosition = positionService.findByTitleAndDepartmentTitle(
-                employeeDto.getPositionTitle(), employeeDto.getDepartmentTitle()
-        );
+                employeeDto.getPositionTitle(), employeeDto.getDepartmentTitle());
         int salary = employeeDto.getSalary();
         if (checkWrongPositionSalary(employeePosition, salary)) {
             return Collections.singletonList(getWrongSalaryMessage(employeePosition, salary));
