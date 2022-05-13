@@ -21,7 +21,7 @@ public class EmployeeValidatorServiceImpl implements EmployeeValidatorService {
     private final EmployeeDtoChecker dtoChecker;
 
     @Override
-    @SneakyThrows
+    @SneakyThrows //todo не оч люблю эту аннотацию) лучше лишний раз с ней не работать
     public void validateRegistration(EmployeeDto dto) {
         //todo в отдельный чекер
         // done
@@ -33,10 +33,8 @@ public class EmployeeValidatorServiceImpl implements EmployeeValidatorService {
     }
 
     @Override
-    @SneakyThrows
+    @SneakyThrows //todo не оч люблю эту аннотацию) лучше лишний раз с ней не работать
     public void validateUpdate(EmployeeDto dto) {
-        //todo в отдельный чекер
-        // done
         if (checkDtoIdEqualsZero(dto)) {
             String message = messageService.getMessage(WRONG_ID_DURING_UPDATE);
             throw new EmployeeValidatorException(message);
@@ -50,7 +48,7 @@ public class EmployeeValidatorServiceImpl implements EmployeeValidatorService {
         return sb.toString();
     }
 
-    @SneakyThrows
+    @SneakyThrows //todo не оч люблю эту аннотацию) лучше лишний раз с ней не работать
     private void validateFields(EmployeeDto dto) {
         List<String> checkerMessages = dtoChecker.check(dto);
         if (!checkerMessages.isEmpty()) {
@@ -58,6 +56,7 @@ public class EmployeeValidatorServiceImpl implements EmployeeValidatorService {
         }
     }
 
+    //todo перенести в класс checker
     private boolean checkDtoIdEqualsZero(EmployeeDto employeeDto) {
         return employeeDto.getId() == 0;
     }

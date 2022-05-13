@@ -13,8 +13,6 @@ import static ru.liga.application.domain.type.Message.POSITION_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
-//todo добавить интерфейс и использовать через него
-// done
 public class PositionServiceImpl implements PositionService {
     private final EmployeePositionRepository positionRepository;
     private final MessageService messageService;
@@ -23,11 +21,6 @@ public class PositionServiceImpl implements PositionService {
     @SneakyThrows
     public Position findByTitleAndDepartmentTitle(String positionTitle, String departmentTitle) {
         return positionRepository.findByTitleAndDepartmentTitle(positionTitle, departmentTitle)
-                .orElseThrow(() -> {
-                    String message = messageService.getMessage(POSITION_NOT_FOUND);
-                    //todo сделай свой Exception + чтоб он был Checked
-                    // done
-                    return new PositionNotFoundException(message);
-                });
+                .orElseThrow(() -> new PositionNotFoundException(messageService.getMessage(POSITION_NOT_FOUND)));
     }
 }

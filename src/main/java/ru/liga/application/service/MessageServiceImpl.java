@@ -6,8 +6,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import ru.liga.application.api.MessageService;
 
 import java.util.Locale;
-//todo добавить интерфейс и использовать через него
-// done
+
 @RequiredArgsConstructor
 public class MessageServiceImpl implements MessageService {
     public static final Locale LOCALE_RU = new Locale("ru", "RU");
