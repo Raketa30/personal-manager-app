@@ -10,9 +10,9 @@ SoapAction:
     <x:Body>
         <gre:addEmployeeRequest>
             <gre:employeeDto>
-                <gre:firstname></gre:firstname>
-                <gre:lastname></gre:lastname>
-                <gre:salary>1900000</gre:salary>
+                <gre:firstname>EEE</gre:firstname>
+                <gre:lastname>AA</gre:lastname>
+                <gre:salary>190000</gre:salary>
                 <gre:positionTitle>MANAGER</gre:positionTitle>
                 <gre:departmentTitle>CRM</gre:departmentTitle>
             </gre:employeeDto>
@@ -32,7 +32,6 @@ SoapAction:
 <x:Body>
     <gre:updateEmployeeRequest>
         <gre:employeeDto>
-            <gre:id>37</gre:id>
             <gre:firstname>Dart</gre:firstname>
             <gre:lastname>Veider</gre:lastname>
             <gre:salary>55000</gre:salary>
@@ -54,7 +53,7 @@ SoapAction:
     <x:Header/>
     <x:Body>
         <gre:deleteEmployeeRequest>
-            <gre:employeeId>6</gre:employeeId>
+            <gre:employeeId>63</gre:employeeId>
         </gre:deleteEmployeeRequest>
     </x:Body>
 </x:Envelope>
@@ -84,7 +83,7 @@ SoapAction:
     <x:Header/>
     <x:Body>
         <gre:getEmployeeByIdRequest>
-            <gre:employeeId>37</gre:employeeId>
+            <gre:employeeId>55</gre:employeeId>
         </gre:getEmployeeByIdRequest>
     </x:Body>
 </x:Envelope>

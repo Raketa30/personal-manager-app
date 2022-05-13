@@ -11,7 +11,7 @@ public interface EmployeeService {
 
     Collection<EmployeeDto> findAll();
 
-    EmployeeDto findById(long id);
+    EmployeeDto findById(long employeeId);
 
     EmployeeDto save(EmployeeDto employeeDto);
 

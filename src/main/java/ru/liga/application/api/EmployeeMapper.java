@@ -1,9 +1,11 @@
-package ru.liga.application.mapper;
+package ru.liga.application.api;
 
 import ru.liga.application.domain.entity.Employee;
 import ru.liga.application.domain.soap.employee.EmployeeDto;
 
-public interface EmployeeMapper {//todo в пакет api
+//todo в пакет api
+// done
+public interface EmployeeMapper {
     Employee employeeDtoToEmployee(EmployeeDto employeeDto);
 
     EmployeeDto employeeToEmployeeDto(Employee employee);
