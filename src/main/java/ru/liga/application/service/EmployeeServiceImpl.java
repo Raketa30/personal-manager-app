@@ -3,32 +3,35 @@ package ru.liga.application.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.liga.application.api.EmployeeService;
+import ru.liga.application.api.*;
 import ru.liga.application.domain.entity.Employee;
-import ru.liga.application.domain.entity.EmployeePosition;
+import ru.liga.application.domain.entity.Position;
 import ru.liga.application.domain.soap.employee.EmployeeDto;
-import ru.liga.application.mapper.EmployeeMapperImpl;
+import ru.liga.application.exception.EmployeeNotFoundException;
+import ru.liga.application.exception.EmployeeValidatorException;
+import ru.liga.application.exception.PositionValidatorException;
 import ru.liga.application.repository.EmployeeRepository;
-import ru.liga.application.service.validation.ValidatorService;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static ru.liga.application.common.Message.EMPLOYEE_NOT_FOUND;
+import static ru.liga.application.domain.type.Message.EMPLOYEE_NOT_FOUND;
+import static ru.liga.application.domain.type.Message.POSITION_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository employeeRepository;
-    private final EmployeePositionService positionService;
+    private final PositionService positionService;
     private final MessageService messageService;
-    private final EmployeeMapperImpl mapper;
-    private final ValidatorService validationService;
+    private final EmployeeMapper mapper;
+    private final EmployeeValidatorService employeeValidatorService;
+    private final PositionValidatorService positionValidatorService;
 
     @Override
     @Transactional
-    public void delete(long employeeId) {
-        employeeRepository.deleteById(employeeId);
+    public void delete(long id) {
+        employeeRepository.deleteById(id);
     }
 
     @Override
@@ -51,53 +54,51 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .map(mapper::employeeToEmployeeDto)
                 .orElseThrow(() -> {
                     String message = messageService.getMessage(EMPLOYEE_NOT_FOUND);
-                    return new IllegalArgumentException(String.format(message, id));
+                    return new EmployeeNotFoundException(String.format(message, id));
                 });
     }
 
     @Override
     @Transactional
-    public EmployeeDto save(EmployeeDto employeeDto) {
-        validateRegistrationDto(employeeDto);
+    public EmployeeDto save(EmployeeDto employeeDto) throws EmployeeValidatorException {
+        employeeValidatorService.validateRegistration(employeeDto);
         Employee createdEmployee = mapper.employeeDtoToEmployee(employeeDto);
-        EmployeePosition employeePosition = findEmployeePosition(employeeDto);
-        createdEmployee.setEmployeePosition(employeePosition);
+        Position position = findEmployeePosition(employeeDto);
+        createdEmployee.setPosition(position);
         Employee employee = employeeRepository.save(createdEmployee);
         return mapper.employeeToEmployeeDto(employee);
     }
 
     @Override
     @Transactional
-    public EmployeeDto update(EmployeeDto employeeDto) {
-        validateUpdateDto(employeeDto);
-        Employee createdEmployee = mapper.employeeDtoToEmployee(employeeDto);
-        EmployeePosition employeePosition = findEmployeePosition(employeeDto);
-        createdEmployee.setEmployeePosition(employeePosition);
-        Employee employee = employeeRepository.save(createdEmployee);
+    public EmployeeDto update(EmployeeDto employeeDto) throws EmployeeValidatorException {
+        employeeValidatorService.validateUpdate(employeeDto);
+        Employee employee = findEmployeeById(employeeDto.getId());
+        updateFields(employee, employeeDto);
+        employeeRepository.save(employee);
         return mapper.employeeToEmployeeDto(employee);
     }
 
-    private String buildExceptionMessage(List<String> invalidMessageList) {
-        StringBuilder sb = new StringBuilder();
-        invalidMessageList.forEach(err -> sb.append(err).append("\n"));
-        return sb.toString();
+    private Employee findEmployeeById(long id) {
+        return employeeRepository.findById(id)
+                .orElseThrow(() -> new EmployeeNotFoundException(messageService.getMessage(EMPLOYEE_NOT_FOUND)));
     }
 
-    private EmployeePosition findEmployeePosition(EmployeeDto dto) {
-        return positionService.findByTitleAndDepartmentTitle(dto.getPositionTitle(), dto.getDepartmentTitle());
-    }
-
-    private void validateRegistrationDto(EmployeeDto employeeDto) {
-        List<String> invalidMessageList = validationService.validateRegistration(employeeDto);
-        if (!invalidMessageList.isEmpty()) {
-            throw new IllegalArgumentException(buildExceptionMessage(invalidMessageList));
+    private Position findEmployeePosition(EmployeeDto employeeDto) throws EmployeeValidatorException {
+        Position position = positionService.findByTitleAndDepartmentTitle(employeeDto.getPositionTitle(), employeeDto.getDepartmentTitle());
+        try {
+            positionValidatorService.validate(position, employeeDto);
+        } catch (PositionValidatorException e) {
+            throw new EmployeeValidatorException(messageService.getMessage(POSITION_NOT_FOUND), e);
         }
+        return position;
     }
 
-    private void validateUpdateDto(EmployeeDto employeeDto) {
-        List<String> invalidMessageList = validationService.validateUpdate(employeeDto);
-        if (!invalidMessageList.isEmpty()) {
-            throw new IllegalArgumentException(buildExceptionMessage(invalidMessageList));
-        }
+    private void updateFields(Employee employee, EmployeeDto dto) throws EmployeeValidatorException {
+        Position position = findEmployeePosition(dto);
+        employee.setFirstname(dto.getFirstname());
+        employee.setLastname(dto.getLastname());
+        employee.setSalary(dto.getSalary());
+        employee.setPosition(position);
     }
 }

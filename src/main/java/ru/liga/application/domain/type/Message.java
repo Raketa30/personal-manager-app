@@ -1,6 +1,6 @@
-package ru.liga.application.common;
+package ru.liga.application.domain.type;
 
-public enum Message { //todo вынеси в пакет type(а его domain) чтоб было из названия пакета понято что это)
+public enum Message {
     POSITION_NOT_FOUND,
     SALARY_NOT_IN_POSITION_RANGE,
     EMPLOYEE_CREATED_SUCCESSFULLY,

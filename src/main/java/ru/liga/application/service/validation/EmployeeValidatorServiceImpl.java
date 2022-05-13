@@ -2,85 +2,53 @@ package ru.liga.application.service.validation;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.liga.application.domain.entity.EmployeePosition;
+import ru.liga.application.api.EmployeeDtoChecker;
+import ru.liga.application.api.EmployeeValidatorService;
+import ru.liga.application.api.MessageService;
 import ru.liga.application.domain.soap.employee.EmployeeDto;
-import ru.liga.application.service.EmployeePositionService;
-import ru.liga.application.service.MessageService;
+import ru.liga.application.exception.EmployeeValidatorException;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
-import static ru.liga.application.common.Message.*;
+import static ru.liga.application.domain.type.Message.WRONG_ID_DURING_REGISTRATION;
+import static ru.liga.application.domain.type.Message.WRONG_ID_DURING_UPDATE;
 
 @Service
 @RequiredArgsConstructor
-public class EmployeeValidatorServiceImpl implements ValidatorService {
-    private static final long NEW_USER_ID = 0;
-    private final EmployeePositionService positionService;
+public class EmployeeValidatorServiceImpl implements EmployeeValidatorService {
     private final MessageService messageService;
+    private final EmployeeDtoChecker dtoChecker;
 
     @Override
-    public List<String> validateRegistration(EmployeeDto employeeDto) {
-        List<String> messages = new ArrayList<>();
-        if (employeeDto.getId() != NEW_USER_ID) { //todo в отдельный чекер
-            messages.add(messageService.getMessage(WRONG_ID_DURING_REGISTRATION));
+    public void validateRegistration(EmployeeDto dto) throws EmployeeValidatorException {
+        if (!dtoChecker.checkDtoIdEqualsZero(dto)) {
+            String message = messageService.getMessage(WRONG_ID_DURING_REGISTRATION);
+            throw new EmployeeValidatorException(message);
         }
-        messages.addAll(validatePosition(employeeDto));
-        messages.addAll(checkDtoEmptyFields(employeeDto));
-        return messages;
+        validateFields(dto);
     }
 
     @Override
-    public List<String> validateUpdate(EmployeeDto employeeDto) {
-        List<String> messages = new ArrayList<>();
-        if (employeeDto.getId() == NEW_USER_ID) { //todo в отдельный чекер
-            messages.add(messageService.getMessage(WRONG_ID_DURING_UPDATE));
+    public void validateUpdate(EmployeeDto dto) throws EmployeeValidatorException {
+        if (dtoChecker.checkDtoIdEqualsZero(dto)) {
+            String message = messageService.getMessage(WRONG_ID_DURING_UPDATE);
+            throw new EmployeeValidatorException(message);
         }
-        messages.addAll(validatePosition(employeeDto));
-        messages.addAll(checkDtoEmptyFields(employeeDto));
-        return messages;
+        validateFields(dto);
     }
 
-    //todo чекеры в отдельный класс
-    private List<String> checkDtoEmptyFields(EmployeeDto employeeDto) {
-        List<String> messages = new ArrayList<>();
-        if (employeeDto.getFirstname().isEmpty()) {
-            messages.add(messageService.getMessage(EMPTY_FIRSTNAME));
-        }
-        if (employeeDto.getLastname().isEmpty()) {
-            messages.add(messageService.getMessage(EMPTY_LASTNAME));
-        }
-        if (employeeDto.getPositionTitle().isEmpty()) {
-            messages.add(messageService.getMessage(EMPTY_POSITION));
-        }
-        if (employeeDto.getDepartmentTitle().isEmpty()) {
-            messages.add(messageService.getMessage(EMPTY_DEPARTMENT));
-        }
-        return messages;
+    private String getMessage(List<String> checkerMessages) {
+        //todo плохое название)) Опиши что конкретно оно делает. То есть есди это просто выдача сообщения то message
+        // done
+        StringBuilder messageBuilder = new StringBuilder();
+        checkerMessages.forEach(msg -> messageBuilder.append(msg).append("\n"));
+        return messageBuilder.toString();
     }
 
-    private boolean checkWrongPositionSalary(EmployeePosition employeePosition, int salary) {
-        return salary < employeePosition.getMinSalary() || salary > employeePosition.getMaxSalary();
-    }
-
-    private String getWrongSalaryMessage(EmployeePosition employeePosition, int salary) {
-        String message = messageService.getMessage(SALARY_NOT_IN_POSITION_RANGE);
-        return String.format(message,
-                employeePosition.getTitle(),
-                employeePosition.getMinSalary(),
-                employeePosition.getMaxSalary(),
-                salary
-        );
-    }
-
-    private List<String> validatePosition(EmployeeDto employeeDto) {
-        EmployeePosition employeePosition = positionService.findByTitleAndDepartmentTitle(
-                employeeDto.getPositionTitle(), employeeDto.getDepartmentTitle());
-        int salary = employeeDto.getSalary();
-        if (checkWrongPositionSalary(employeePosition, salary)) {
-            return Collections.singletonList(getWrongSalaryMessage(employeePosition, salary));
+    private void validateFields(EmployeeDto dto) throws EmployeeValidatorException {
+        List<String> checkerMessages = dtoChecker.check(dto);
+        if (!checkerMessages.isEmpty()) {
+            throw new EmployeeValidatorException(getMessage(checkerMessages));
         }
-        return Collections.emptyList();
     }
 }

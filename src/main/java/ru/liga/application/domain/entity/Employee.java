@@ -32,7 +32,7 @@ public class Employee {
 
     @ManyToOne
     @JoinColumn(name = "position_id", nullable = false)
-    private EmployeePosition employeePosition;
+    private Position position;
 
     @Override
     public int hashCode() {

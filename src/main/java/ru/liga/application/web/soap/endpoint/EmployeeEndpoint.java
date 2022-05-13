@@ -1,6 +1,5 @@
-package ru.liga.application.endpoints.soap;
-//todo в названии пакетов не принято писать множественное число + порядок другой от большего к меньшему.
-// У тебя наоборот.
+package ru.liga.application.web.soap.endpoint;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.ws.server.endpoint.annotation.Endpoint;
 import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
@@ -8,6 +7,7 @@ import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 import ru.liga.application.api.EmployeeService;
 import ru.liga.application.domain.soap.employee.*;
+import ru.liga.application.exception.EmployeeValidatorException;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ public class EmployeeEndpoint {
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "addEmployeeRequest")
     @ResponsePayload
-    public AddEmployeeResponse add(@RequestPayload AddEmployeeRequest request) {
+    public AddEmployeeResponse add(@RequestPayload AddEmployeeRequest request) throws EmployeeValidatorException {
         AddEmployeeResponse response = new AddEmployeeResponse();
         EmployeeDto employeeDto = employeeService.save(request.getEmployeeDto());
         response.setEmployeeDto(employeeDto);
@@ -52,7 +52,7 @@ public class EmployeeEndpoint {
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "updateEmployeeRequest")
     @ResponsePayload
-    public UpdateEmployeeResponse update(@RequestPayload UpdateEmployeeRequest request) {
+    public UpdateEmployeeResponse update(@RequestPayload UpdateEmployeeRequest request) throws EmployeeValidatorException {
         UpdateEmployeeResponse response = new UpdateEmployeeResponse();
         EmployeeDto employeeDto = employeeService.update(request.getEmployeeDto());
         response.setEmployeeDto(employeeDto);

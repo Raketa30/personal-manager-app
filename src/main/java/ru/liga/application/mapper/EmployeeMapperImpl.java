@@ -1,6 +1,7 @@
 package ru.liga.application.mapper;
 
 import org.springframework.stereotype.Component;
+import ru.liga.application.api.EmployeeMapper;
 import ru.liga.application.domain.entity.Employee;
 import ru.liga.application.domain.soap.employee.EmployeeDto;
 
@@ -23,8 +24,8 @@ public class EmployeeMapperImpl implements EmployeeMapper {
         employeeDto.setId(employee.getId());
         employeeDto.setFirstname(employee.getFirstname());
         employeeDto.setLastname(employee.getLastname());
-        employeeDto.setPositionTitle(employee.getEmployeePosition().getTitle());
-        employeeDto.setDepartmentTitle(employee.getEmployeePosition().getDepartment().getTitle());
+        employeeDto.setPositionTitle(employee.getPosition().getTitle());
+        employeeDto.setDepartmentTitle(employee.getPosition().getDepartment().getTitle());
         employeeDto.setSalary(employee.getSalary());
         return employeeDto;
     }

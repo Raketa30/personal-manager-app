@@ -28,7 +28,7 @@ public class Department {
     private String title;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "department")
-    private Set<EmployeePosition> employeePositions = new HashSet<>();
+    private Set<Position> positions = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {
