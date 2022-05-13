@@ -18,13 +18,13 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
-public class EmployeePosition {
+public class Position {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "title")
-    @NotBlank(message = "Название должности обязательно") //todo оставлять русские слова в коде плохая практика. Используй ResourceBundle. Можно посмотреть в fccr класс MessageService
+    @NotBlank(message = "${entity.validation.position.title}")
     private String title;
 
     @Column(name = "min_salary")
@@ -37,14 +37,14 @@ public class EmployeePosition {
     @JoinColumn(name = "department_id", nullable = false)
     private Department department;
 
-    @OneToMany(mappedBy = "employeePosition")
+    @OneToMany(mappedBy = "position")
     private Set<Employee> employees = new HashSet<>();
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
-        EmployeePosition that = (EmployeePosition) o;
+        Position that = (Position) o;
         return id != null && Objects.equals(id, that.id);
     }
 

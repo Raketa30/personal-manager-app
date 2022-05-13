@@ -20,11 +20,11 @@ public class Employee {
     private Long id;
 
     @Column(name = "firstname")
-    @NotBlank(message = "Имя обязательно") //todo оставлять русские слова в коде плохая практика. Используй ResourceBundle. Можно посмотреть в fccr класс MessageService
+    @NotBlank(message = "${entity.validation.employee.firstname}")
     private String firstname;
 
     @Column(name = "lastname")
-    @NotBlank(message = "Фамилия обязательно") //todo оставлять русские слова в коде плохая практика. Используй ResourceBundle. Можно посмотреть в fccr класс MessageService
+    @NotBlank(message = "${entity.validation.employee.lastname}")
     private String lastname;
 
     @Column(name = "salary")
@@ -32,7 +32,7 @@ public class Employee {
 
     @ManyToOne
     @JoinColumn(name = "position_id", nullable = false)
-    private EmployeePosition employeePosition;
+    private Position position;
 
     @Override
     public int hashCode() {
