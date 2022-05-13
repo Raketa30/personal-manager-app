@@ -1,7 +1,6 @@
 package ru.liga.application.service.validation;
 
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import ru.liga.application.api.EmployeeDtoChecker;
 import ru.liga.application.api.EmployeeValidatorService;
@@ -20,22 +19,24 @@ public class EmployeeValidatorServiceImpl implements EmployeeValidatorService {
     private final MessageService messageService;
     private final EmployeeDtoChecker dtoChecker;
 
+    //todo не оч люблю эту аннотацию) лучше лишний раз с ней не работать
+    // done
     @Override
-    @SneakyThrows //todo не оч люблю эту аннотацию) лучше лишний раз с ней не работать
-    public void validateRegistration(EmployeeDto dto) {
+    public void validateRegistration(EmployeeDto dto) throws EmployeeValidatorException {
         //todo в отдельный чекер
         // done
-        if (!checkDtoIdEqualsZero(dto)) {
+        if (!dtoChecker.checkDtoIdEqualsZero(dto)) {
             String message = messageService.getMessage(WRONG_ID_DURING_REGISTRATION);
             throw new EmployeeValidatorException(message);
         }
         validateFields(dto);
     }
 
+    //todo не оч люблю эту аннотацию) лучше лишний раз с ней не работать
+    // done
     @Override
-    @SneakyThrows //todo не оч люблю эту аннотацию) лучше лишний раз с ней не работать
-    public void validateUpdate(EmployeeDto dto) {
-        if (checkDtoIdEqualsZero(dto)) {
+    public void validateUpdate(EmployeeDto dto) throws EmployeeValidatorException {
+        if (dtoChecker.checkDtoIdEqualsZero(dto)) {
             String message = messageService.getMessage(WRONG_ID_DURING_UPDATE);
             throw new EmployeeValidatorException(message);
         }
@@ -48,16 +49,12 @@ public class EmployeeValidatorServiceImpl implements EmployeeValidatorService {
         return sb.toString();
     }
 
-    @SneakyThrows //todo не оч люблю эту аннотацию) лучше лишний раз с ней не работать
-    private void validateFields(EmployeeDto dto) {
+    //todo не оч люблю эту аннотацию) лучше лишний раз с ней не работать
+    // done
+    private void validateFields(EmployeeDto dto) throws EmployeeValidatorException {
         List<String> checkerMessages = dtoChecker.check(dto);
         if (!checkerMessages.isEmpty()) {
             throw new EmployeeValidatorException(getMessage(checkerMessages));
         }
-    }
-
-    //todo перенести в класс checker
-    private boolean checkDtoIdEqualsZero(EmployeeDto employeeDto) {
-        return employeeDto.getId() == 0;
     }
 }

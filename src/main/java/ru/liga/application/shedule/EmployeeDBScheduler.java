@@ -10,7 +10,7 @@ import ru.liga.application.api.EmployeeService;
 public class EmployeeDBScheduler {
     private final EmployeeService employeeService;
 
-    @Scheduled(cron = "${scheduler.oneminute.cron}")
+    @Scheduled(cron = "${scheduler.one_minute.cron}")
     public void deleteLastRow() {
         employeeService.deleteLastRow();
     }

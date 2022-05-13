@@ -32,8 +32,9 @@ SoapAction:
 <x:Body>
     <gre:updateEmployeeRequest>
         <gre:employeeDto>
+            <gre:id>95</gre:id>
             <gre:firstname>Dart</gre:firstname>
-            <gre:lastname>Veider</gre:lastname>
+            <gre:lastname>Veieererder</gre:lastname>
             <gre:salary>55000</gre:salary>
             <gre:positionTitle>JUNIOR_DEVELOPER</gre:positionTitle>
             <gre:departmentTitle>CRM</gre:departmentTitle>

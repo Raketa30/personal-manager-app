@@ -1,7 +1,6 @@
 package ru.liga.application.service.validation;
 
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import ru.liga.application.api.MessageService;
 import ru.liga.application.api.PositionValidatorService;
@@ -17,8 +16,7 @@ public class PositionValidatorServiceImpl implements PositionValidatorService {
     private final MessageService messageService;
 
     @Override
-    @SneakyThrows
-    public void validate(Position position, EmployeeDto employeeDto) {
+    public void validate(Position position, EmployeeDto employeeDto) throws PositionValidatorException {
         int salary = employeeDto.getSalary();
         if (checkWrongPositionSalary(position, salary)) {
            throw new PositionValidatorException(getWrongSalaryMessage(position, salary));

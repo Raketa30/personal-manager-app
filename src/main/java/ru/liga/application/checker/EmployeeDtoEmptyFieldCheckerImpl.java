@@ -33,4 +33,11 @@ public class EmployeeDtoEmptyFieldCheckerImpl implements EmployeeDtoChecker {
         }
         return messages;
     }
+
+    //todo перенести в класс checker
+    // done
+    @Override
+    public boolean checkDtoIdEqualsZero(EmployeeDto employeeDto) {
+        return employeeDto.getId() == 0;
+    }
 }

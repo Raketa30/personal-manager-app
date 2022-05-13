@@ -1,7 +1,6 @@
 package ru.liga.application.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import ru.liga.application.api.MessageService;
 import ru.liga.application.api.PositionService;
@@ -18,7 +17,6 @@ public class PositionServiceImpl implements PositionService {
     private final MessageService messageService;
 
     @Override
-    @SneakyThrows
     public Position findByTitleAndDepartmentTitle(String positionTitle, String departmentTitle) {
         return positionRepository.findByTitleAndDepartmentTitle(positionTitle, departmentTitle)
                 .orElseThrow(() -> new PositionNotFoundException(messageService.getMessage(POSITION_NOT_FOUND)));

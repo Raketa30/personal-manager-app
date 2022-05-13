@@ -6,4 +6,8 @@ import java.util.List;
 
 public interface EmployeeDtoChecker {
     List<String> check(EmployeeDto dto);
+
+    //todo перенести в класс checker
+    // done
+    boolean checkDtoIdEqualsZero(EmployeeDto employeeDto);
 }

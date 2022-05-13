@@ -1,7 +1,6 @@
 package ru.liga.application.service;
 
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.liga.application.api.*;
@@ -9,12 +8,15 @@ import ru.liga.application.domain.entity.Employee;
 import ru.liga.application.domain.entity.Position;
 import ru.liga.application.domain.soap.employee.EmployeeDto;
 import ru.liga.application.exception.EmployeeNotFoundException;
+import ru.liga.application.exception.EmployeeValidatorException;
+import ru.liga.application.exception.PositionValidatorException;
 import ru.liga.application.repository.EmployeeRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static ru.liga.application.domain.type.Message.EMPLOYEE_NOT_FOUND;
+import static ru.liga.application.domain.type.Message.POSITION_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
@@ -47,7 +49,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    @SneakyThrows
     public EmployeeDto findById(long id) {
         return employeeRepository.findById(id)
                 .map(mapper::employeeToEmployeeDto)
@@ -59,7 +60,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     @Transactional
-    public EmployeeDto save(EmployeeDto employeeDto) {
+    public EmployeeDto save(EmployeeDto employeeDto) throws EmployeeValidatorException {
         employeeValidatorService.validateRegistration(employeeDto);
         Employee createdEmployee = mapper.employeeDtoToEmployee(employeeDto);
         Position position = findEmployeePosition(employeeDto);
@@ -70,18 +71,34 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     @Override
     @Transactional
-    public EmployeeDto update(EmployeeDto employeeDto) {
+    public EmployeeDto update(EmployeeDto employeeDto) throws EmployeeValidatorException {
         employeeValidatorService.validateUpdate(employeeDto);
-        Employee createdEmployee = mapper.employeeDtoToEmployee(employeeDto);
-        Position position = findEmployeePosition(employeeDto);
-        createdEmployee.setPosition(position);
-        Employee employee = employeeRepository.save(createdEmployee);
+        Employee employee = findEmployeeById(employeeDto.getId());
+        updateFields(employee, employeeDto);
+        employeeRepository.save(employee);
         return mapper.employeeToEmployeeDto(employee);
+    }
+
+    private Employee findEmployeeById(long id) {
+        return employeeRepository.findById(id)
+                .orElseThrow(() -> new EmployeeNotFoundException(messageService.getMessage(EMPLOYEE_NOT_FOUND)));
     }
 
     private Position findEmployeePosition(EmployeeDto employeeDto) {
         Position position = positionService.findByTitleAndDepartmentTitle(employeeDto.getPositionTitle(), employeeDto.getDepartmentTitle());
-        positionValidatorService.validate(position, employeeDto);
+        try {
+            positionValidatorService.validate(position, employeeDto);
+        } catch (PositionValidatorException e) {
+            throw new EmployeeNotFoundException(messageService.getMessage(POSITION_NOT_FOUND), e);
+        }
         return position;
+    }
+
+    private void updateFields(Employee employee, EmployeeDto dto) {
+        Position position = findEmployeePosition(dto);
+        employee.setFirstname(dto.getFirstname());
+        employee.setLastname(dto.getLastname());
+        employee.setSalary(dto.getSalary());
+        employee.setPosition(position);
     }
 }
