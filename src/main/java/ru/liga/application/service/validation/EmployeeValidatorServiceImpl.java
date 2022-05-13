@@ -19,12 +19,8 @@ public class EmployeeValidatorServiceImpl implements EmployeeValidatorService {
     private final MessageService messageService;
     private final EmployeeDtoChecker dtoChecker;
 
-    //todo не оч люблю эту аннотацию) лучше лишний раз с ней не работать
-    // done
     @Override
     public void validateRegistration(EmployeeDto dto) throws EmployeeValidatorException {
-        //todo в отдельный чекер
-        // done
         if (!dtoChecker.checkDtoIdEqualsZero(dto)) {
             String message = messageService.getMessage(WRONG_ID_DURING_REGISTRATION);
             throw new EmployeeValidatorException(message);
@@ -32,8 +28,6 @@ public class EmployeeValidatorServiceImpl implements EmployeeValidatorService {
         validateFields(dto);
     }
 
-    //todo не оч люблю эту аннотацию) лучше лишний раз с ней не работать
-    // done
     @Override
     public void validateUpdate(EmployeeDto dto) throws EmployeeValidatorException {
         if (dtoChecker.checkDtoIdEqualsZero(dto)) {
@@ -44,13 +38,11 @@ public class EmployeeValidatorServiceImpl implements EmployeeValidatorService {
     }
 
     private String getMessage(List<String> checkerMessages) {
-        StringBuilder sb = new StringBuilder();
+        StringBuilder sb = new StringBuilder(); //todo плохое название)) Опиши что конкретно оно делает. То есть есди это просто выдача сообщения то message
         checkerMessages.forEach(msg -> sb.append(msg).append("\n"));
         return sb.toString();
     }
 
-    //todo не оч люблю эту аннотацию) лучше лишний раз с ней не работать
-    // done
     private void validateFields(EmployeeDto dto) throws EmployeeValidatorException {
         List<String> checkerMessages = dtoChecker.check(dto);
         if (!checkerMessages.isEmpty()) {
