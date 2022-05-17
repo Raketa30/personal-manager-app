@@ -68,7 +68,6 @@ public class TaskServiceImpl implements TaskService {
         return created;
     }
 
-
     private Task updateTaskFromDto(TaskDto taskDto) {
         Task task = taskRepository.findTaskByUuid(taskDto.getUuid());
         task.setCompleted(taskDto.isCompleted());

@@ -37,7 +37,6 @@ public class TaskController {
         taskService.delete(uuid);
     }
 
-
     @PutMapping("/{uuid}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@RequestBody TaskDto taskDto, @PathVariable String uuid) {
@@ -49,6 +48,4 @@ public class TaskController {
                 .path(TASKS_URL + "/{uuid}")
                 .buildAndExpand(created.getUuid()).toUri();
     }
-
-
 }
