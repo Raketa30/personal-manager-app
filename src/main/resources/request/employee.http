@@ -6,26 +6,53 @@ GET http://localhost/api/v1/employees
 POST http://localhost:8080/api/v1/employees
 Content-Type: application/json
 
-{
-  "firstname": "",
-  "lastname": "",
-  "salary": 70000,
-  "positionTitle": "JUNIOR_DEVELOPER",
-  "departmentTitle": "CRM",
-  "tasks": []
-}
+[
+  {
+    "firstname": "asdasdasd",
+    "lastname": "adsasasddasdasd",
+    "salary": 70000,
+    "positionTitle": "JUNIOR_DEVELOPER",
+    "departmentTitle": "CRM",
+    "tasks": []
+  },
+  {
+    "firstname": "asdasdasd",
+    "lastname": "adsasdasdasdasd",
+    "salary": 70000,
+    "positionTitle": "JUNIOR_DEVELOPER",
+    "departmentTitle": "CRM",
+    "tasks": []
+  },
+  {
+    "firstname": "asdasdasd",
+    "lastname": "adsasdaasddassd",
+    "salary": 70000,
+    "positionTitle": "JUNIOR_DEVELOPER",
+    "departmentTitle": "CRM",
+    "tasks": []
+  },
+  {
+    "firstname": "",
+    "lastname": "adsasdasd",
+    "salary": 70000,
+    "positionTitle": "JUNIOR_DjVELOPER",
+    "departmentTitle": "CRM",
+    "tasks": []
+  }
+
+]
 
 ### update
 PUT http://localhost:8080/api/v1/employees/24
 Content-Type: application/json
 
 {
-"firstname": "Biba2222",
-"lastname": "Boba",
-"salary": 70000,
-"positionTitle": "JUNIOR_DEVELOPER",
-"departmentTitle": "CRM",
-"tasks": []
+  "firstname": "Biba2222",
+  "lastname": "Boba",
+  "salary": 70000,
+  "positionTitle": "JUNIOR_DEVELOPER",
+  "departmentTitle": "CRM",
+  "tasks": []
 }
 
 <> 2022-05-17T094338.500.json

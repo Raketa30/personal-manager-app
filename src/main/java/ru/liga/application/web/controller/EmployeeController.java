@@ -9,9 +9,10 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.liga.application.api.EmployeeService;
 import ru.liga.application.domain.dto.EmployeeDto;
 import ru.liga.application.domain.search.EmployeeSearchValues;
-import ru.liga.application.exception.CustomValidationException;
+import ru.liga.application.web.EmployeeCreateResponse;
 
 import java.net.URI;
+import java.util.List;
 
 import static ru.liga.application.web.RestUrlV1.EMPLOYEES_URL;
 
@@ -22,10 +23,12 @@ public class EmployeeController {
     private final EmployeeService employeeService;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<EmployeeDto> create(@RequestBody EmployeeDto employeeDto) throws CustomValidationException {
-        EmployeeDto created = employeeService.create(employeeDto);
-        URI uriOfNewResource = getUriOfNewResource(created);
-        return ResponseEntity.created(uriOfNewResource).body(created);
+    public ResponseEntity<?> create(@RequestBody List<EmployeeDto> employeeDtoList) {
+        if (checkSingletonList(employeeDtoList)) {
+            return getCreateResponseEntity(employeeDtoList);
+        }
+        EmployeeCreateResponse createUserResponse = employeeService.createAll(employeeDtoList);
+        return ResponseEntity.ok(createUserResponse);
     }
 
     @DeleteMapping("/{id}")
@@ -46,8 +49,18 @@ public class EmployeeController {
 
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody EmployeeDto employeeDto, @PathVariable Long id) throws CustomValidationException {
+    public void update(@RequestBody EmployeeDto employeeDto, @PathVariable Long id) {
         employeeService.update(id, employeeDto);
+    }
+
+    private boolean checkSingletonList(List<EmployeeDto> employeeDtoList) {
+        return employeeDtoList.size() == 1;
+    }
+
+    private ResponseEntity<EmployeeDto> getCreateResponseEntity(List<EmployeeDto> employeeDtoList) {
+        EmployeeDto created = employeeService.create(employeeDtoList.get(0));
+        URI uriOfNewResource = getUriOfNewResource(created);
+        return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
     private URI getUriOfNewResource(EmployeeDto created) {

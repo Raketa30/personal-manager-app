@@ -8,11 +8,11 @@ import java.util.List;
 public interface TaskService {
     TaskDto create(TaskDto taskDto);
 
-    void delete(String taskId);
+    void delete(String uuid);
 
     List<TaskDto> findAll(long employeeId);
 
     Task findByUuid(String uuid);
 
-    void update(TaskDto taskDto);
+    void update(String uuid, TaskDto taskDto);
 }

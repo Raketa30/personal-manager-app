@@ -31,16 +31,24 @@ public class TaskController {
     public ResponseEntity<Task> findByUuid(@PathVariable String uuid) {
         return ResponseEntity.ok(taskService.findByUuid(uuid));
     }
+    @DeleteMapping("/{uuid}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void delete(@PathVariable String uuid) {
+        taskService.delete(uuid);
+    }
+
 
     @PutMapping("/{uuid}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@RequestBody TaskDto taskDto, @PathVariable String uuid) {
-        taskService.update(taskDto);
+        taskService.update(uuid, taskDto);
     }
 
     private URI getUriOfNewResource(TaskDto created) {
         return ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(TASKS_URL + "/{uuid}")
-                .buildAndExpand(created.getEmployeeId()).toUri();
+                .buildAndExpand(created.getUuid()).toUri();
     }
+
+
 }

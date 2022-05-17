@@ -7,7 +7,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import ru.liga.application.config.SwaggerConfiguration;
 
 @SpringBootApplication
-@EnableScheduling
+//@EnableScheduling
 @Import(SwaggerConfiguration.class)
 public class PersonalManagerAppApplication {
     public static void main(String[] args) {

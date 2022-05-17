@@ -28,8 +28,8 @@ public class TaskServiceImpl implements TaskService {
     @Transactional
     public TaskDto create(TaskDto taskDto) {
         Task created = createTask(taskDto);
-        taskRepository.save(created);
-        return taskMapper.taskToTaskDto(created);
+        Task save = taskRepository.save(created);
+        return taskMapper.taskToTaskDto(save);
     }
 
     @Override
@@ -52,7 +52,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     @Transactional
-    public void update(TaskDto taskDto) {
+    public void update(String uuid, TaskDto taskDto) {
         taskValidatorService.validate(taskDto);
         Task updated = updateTaskFromDto(taskDto);
         taskRepository.save(updated);
@@ -67,6 +67,7 @@ public class TaskServiceImpl implements TaskService {
         created.setUuid(UUID.randomUUID().toString());
         return created;
     }
+
 
     private Task updateTaskFromDto(TaskDto taskDto) {
         Task task = taskRepository.findTaskByUuid(taskDto.getUuid());

@@ -15,10 +15,14 @@ import ru.liga.application.domain.search.EmployeeSearchValues;
 import ru.liga.application.exception.CustomValidationException;
 import ru.liga.application.exception.NotFoundException;
 import ru.liga.application.repository.EmployeeRepository;
+import ru.liga.application.web.EmployeeCreateResponse;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static ru.liga.application.domain.type.Message.EMPLOYEES_CREATED;
 import static ru.liga.application.domain.type.Message.EMPLOYEE_NOT_FOUND;
 
 @Service
@@ -35,11 +39,22 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Transactional
     public EmployeeDto create(EmployeeDto employeeDto) {
         employeeValidatorService.validate(employeeDto);
-        Employee createdEmployee = mapper.employeeDtoToEmployee(employeeDto);
-        Position position = findEmployeePosition(employeeDto);
-        createdEmployee.setPosition(position);
+        Employee createdEmployee = createEmployee(employeeDto);
         Employee employee = employeeRepository.save(createdEmployee);
         return mapper.employeeToEmployeeDto(employee);
+    }
+
+    @Override
+    @Transactional
+    public EmployeeCreateResponse createAll(List<EmployeeDto> employeeDtoList) {
+        EmployeeCreateResponse createResponse = new EmployeeCreateResponse();
+        List<EmployeeDto> validatedDtoList = validateDtoList(employeeDtoList, createResponse);
+        List<Employee> employeeList = createEmployeeList(validatedDtoList);
+        List<Employee> createdEmployees = employeeRepository.saveAll(employeeList);
+        List<EmployeeDto> createdEmployeeDto = createDtoList(createdEmployees);
+        createResponse.setEmployeeDtoList(createdEmployeeDto);
+        createResponse.setCreateResultMessage(String.format(messageService.getMessage(EMPLOYEES_CREATED), createdEmployees.size()));
+        return createResponse;
     }
 
     @Override
@@ -97,6 +112,25 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeRepository.save(employee);
     }
 
+    private List<EmployeeDto> createDtoList(List<Employee> createdEmployees) {
+        return createdEmployees.stream()
+                .map(mapper::employeeToEmployeeDto)
+                .collect(Collectors.toList());
+    }
+
+    private Employee createEmployee(EmployeeDto employeeDto) {
+        Employee createdEmployee = mapper.employeeDtoToEmployee(employeeDto);
+        Position position = findEmployeePosition(employeeDto);
+        createdEmployee.setPosition(position);
+        return createdEmployee;
+    }
+
+    private List<Employee> createEmployeeList(List<EmployeeDto> validateddtolist) {
+        return validateddtolist.stream()
+                .map(this::createEmployee)
+                .collect(Collectors.toList());
+    }
+
     private Employee findEmployeeById(long id) {
         return employeeRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(messageService.getMessage(EMPLOYEE_NOT_FOUND)));
@@ -131,5 +165,20 @@ public class EmployeeServiceImpl implements EmployeeService {
         employee.setLastname(dto.getLastname());
         employee.setSalary(dto.getSalary());
         employee.setPosition(position);
+    }
+
+    private List<EmployeeDto> validateDtoList(List<EmployeeDto> employeeDtoList, EmployeeCreateResponse employeeCreateResponse) {
+        List<String> errorMessageList = new ArrayList<>();
+        List<EmployeeDto> validDtoList = new ArrayList<>();
+        employeeDtoList.forEach(dto -> {
+            try {
+                employeeValidatorService.validate(dto);
+                validDtoList.add(dto);
+            } catch (CustomValidationException | NotFoundException e) {
+                errorMessageList.add(e.getMessage());
+            }
+        });
+        employeeCreateResponse.setErrors(errorMessageList);
+        return validDtoList;
     }
 }

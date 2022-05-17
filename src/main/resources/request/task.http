@@ -1,0 +1,19 @@
+### create
+POST http://localhost:8080/api/v1/tasks
+Content-Type: application/json
+
+{
+ "employeeId" : 30,
+  "description" : "Drink beer and relax"
+}
+
+### update
+PUT http://localhost:8080/api/v1/tasks/69e212f8-6727-4eaf-931b-a96bc3f03ded
+Content-Type: application/json
+
+{
+  "employeeId": 30,
+  "uuid": "69e212f8-6727-4eaf-931b-a96bc3f03ded",
+  "completed": true,
+  "description": "Drink besxsxxssxsxsxer and relax"
+}
