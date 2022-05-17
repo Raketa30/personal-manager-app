@@ -6,7 +6,7 @@ import ru.liga.application.domain.dto.TaskDto;
 import ru.liga.application.domain.entity.Task;
 
 @Component
-public class TaskMapperImpl implements TaskMapper {
+public class TaskMapperImpl implements TaskMapper { //todo можно сделать не бином
     @Override
     public TaskDto taskToTaskDto(Task task) {
         return TaskDto.builder()

@@ -9,5 +9,5 @@ import static ru.liga.application.web.RestUrlV1.POSITIONS_URL;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(POSITIONS_URL)
-public class PositionController {
+public class PositionController { //todo пустой
 }

@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 
 @Component
 @AllArgsConstructor
-public class EmployeeMapperImpl implements EmployeeMapper {
+public class EmployeeMapperImpl implements EmployeeMapper { //todo можно сделать не бином
     private final TaskMapper taskMapper;
 
     @Override

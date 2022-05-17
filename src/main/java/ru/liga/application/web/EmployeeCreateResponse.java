@@ -10,7 +10,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class EmployeeCreateResponse {
+public class EmployeeCreateResponse { //todo должен лежать в другом пакете
     private List<EmployeeDto> employeeDtoList;
     private List<String> errors;
     private String createResultMessage;

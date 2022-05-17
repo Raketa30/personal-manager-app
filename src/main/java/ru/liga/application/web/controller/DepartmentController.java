@@ -9,5 +9,5 @@ import static ru.liga.application.web.RestUrlV1.DEPARTMENTS_URL;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping(DEPARTMENTS_URL)
-public class DepartmentController {
+public class DepartmentController { //todo пустой
 }

@@ -154,7 +154,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private PageRequest getPageRequest(EmployeeSearchValues employeeSearchValues) {
         return PageRequest.of(
-                employeeSearchValues.getPageNum() - 1,
+                employeeSearchValues.getPageNum() - 1, //todo волшебное значение)) Вынести в константу и дать названия в соответствии для чего это
                 employeeSearchValues.getPageSize(),
                 Sort.by(employeeSearchValues.getSortDirection(), employeeSearchValues.getSortField()));
     }

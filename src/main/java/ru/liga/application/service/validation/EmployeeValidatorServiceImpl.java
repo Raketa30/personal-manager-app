@@ -23,8 +23,6 @@ public class EmployeeValidatorServiceImpl implements EmployeeValidatorService {
     }
 
     private String buildMessage(List<String> checkerMessages) {
-        //todo плохое название)) Опиши что конкретно оно делает. То есть есди это просто выдача сообщения то message
-        // done
         StringBuilder messageBuilder = new StringBuilder();
         checkerMessages.forEach(msg -> messageBuilder.append(msg).append("\n"));
         return messageBuilder.toString();
