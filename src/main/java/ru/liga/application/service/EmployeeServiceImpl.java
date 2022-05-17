@@ -1,22 +1,25 @@
 package ru.liga.application.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.liga.application.api.*;
+import ru.liga.application.domain.dto.EmployeeDto;
 import ru.liga.application.domain.entity.Employee;
 import ru.liga.application.domain.entity.Position;
-import ru.liga.application.domain.soap.employee.EmployeeDto;
-import ru.liga.application.exception.EmployeeNotFoundException;
-import ru.liga.application.exception.EmployeeValidatorException;
-import ru.liga.application.exception.PositionValidatorException;
+import ru.liga.application.domain.search.EmployeeSearchValues;
+import ru.liga.application.exception.CustomValidationException;
+import ru.liga.application.exception.NotFoundException;
 import ru.liga.application.repository.EmployeeRepository;
 
-import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 import static ru.liga.application.domain.type.Message.EMPLOYEE_NOT_FOUND;
-import static ru.liga.application.domain.type.Message.POSITION_NOT_FOUND;
 
 @Service
 @RequiredArgsConstructor
@@ -27,6 +30,17 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeMapper mapper;
     private final EmployeeValidatorService employeeValidatorService;
     private final PositionValidatorService positionValidatorService;
+
+    @Override
+    @Transactional
+    public EmployeeDto create(EmployeeDto employeeDto) {
+        employeeValidatorService.validate(employeeDto);
+        Employee createdEmployee = mapper.employeeDtoToEmployee(employeeDto);
+        Position position = findEmployeePosition(employeeDto);
+        createdEmployee.setPosition(position);
+        Employee employee = employeeRepository.save(createdEmployee);
+        return mapper.employeeToEmployeeDto(employee);
+    }
 
     @Override
     @Transactional
@@ -41,60 +55,77 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<EmployeeDto> findAll() {
-        return employeeRepository.findAll()
-                .stream()
-                .map(mapper::employeeToEmployeeDto)
-                .collect(Collectors.toList());
-    }
-
-    @Override
     public EmployeeDto findById(long id) {
         return employeeRepository.findById(id)
                 .map(mapper::employeeToEmployeeDto)
                 .orElseThrow(() -> {
                     String message = messageService.getMessage(EMPLOYEE_NOT_FOUND);
-                    return new EmployeeNotFoundException(String.format(message, id));
+                    return new NotFoundException(String.format(message, id));
                 });
     }
 
     @Override
-    @Transactional
-    public EmployeeDto save(EmployeeDto employeeDto) throws EmployeeValidatorException {
-        employeeValidatorService.validateRegistration(employeeDto);
-        Employee createdEmployee = mapper.employeeDtoToEmployee(employeeDto);
-        Position position = findEmployeePosition(employeeDto);
-        createdEmployee.setPosition(position);
-        Employee employee = employeeRepository.save(createdEmployee);
-        return mapper.employeeToEmployeeDto(employee);
+    public Employee findEntityById(long id) {
+        return employeeRepository.findById(id)
+                .orElseThrow(() -> {
+                    String message = messageService.getMessage(EMPLOYEE_NOT_FOUND);
+                    return new NotFoundException(String.format(message, id));
+                });
+    }
+
+    @Override
+    public EmployeeSearchValues getPageList(EmployeeSearchValues searchValues) {
+        Page<EmployeeDto> employeeDtoPage = getEmployeeDtoPage(searchValues);
+        searchValues.setPage(employeeDtoPage);
+        int totalPages = employeeDtoPage.getTotalPages();
+        if (totalPages > 0) {
+            final int firstPage = 1;
+            searchValues.setPageNumbers(
+                    IntStream.rangeClosed(firstPage, totalPages)
+                            .boxed()
+                            .collect(Collectors.toList()));
+        }
+        return searchValues;
     }
 
     @Override
     @Transactional
-    public EmployeeDto update(EmployeeDto employeeDto) throws EmployeeValidatorException {
-        employeeValidatorService.validateUpdate(employeeDto);
-        Employee employee = findEmployeeById(employeeDto.getId());
+    public void update(Long id, EmployeeDto employeeDto) {
+        employeeValidatorService.validate(employeeDto);
+        Employee employee = findEmployeeById(id);
         updateFields(employee, employeeDto);
         employeeRepository.save(employee);
-        return mapper.employeeToEmployeeDto(employee);
     }
 
     private Employee findEmployeeById(long id) {
         return employeeRepository.findById(id)
-                .orElseThrow(() -> new EmployeeNotFoundException(messageService.getMessage(EMPLOYEE_NOT_FOUND)));
+                .orElseThrow(() -> new NotFoundException(messageService.getMessage(EMPLOYEE_NOT_FOUND)));
     }
 
-    private Position findEmployeePosition(EmployeeDto employeeDto) throws EmployeeValidatorException {
+    private Position findEmployeePosition(EmployeeDto employeeDto) {
         Position position = positionService.findByTitleAndDepartmentTitle(employeeDto.getPositionTitle(), employeeDto.getDepartmentTitle());
-        try {
-            positionValidatorService.validate(position, employeeDto);
-        } catch (PositionValidatorException e) {
-            throw new EmployeeValidatorException(messageService.getMessage(POSITION_NOT_FOUND), e);
-        }
+        positionValidatorService.validate(position, employeeDto);
         return position;
     }
 
-    private void updateFields(Employee employee, EmployeeDto dto) throws EmployeeValidatorException {
+    private Page<EmployeeDto> getEmployeeDtoPage(EmployeeSearchValues searchValues) {
+        Page<Employee> employeePage = getEmployeePage(searchValues);
+        return employeePage.map(mapper::employeeToEmployeeDto);
+    }
+
+    private Page<Employee> getEmployeePage(EmployeeSearchValues employeeSearchValues) {
+        Pageable pageRequest = getPageRequest(employeeSearchValues);
+        return employeeRepository.findAll(pageRequest);
+    }
+
+    private PageRequest getPageRequest(EmployeeSearchValues employeeSearchValues) {
+        return PageRequest.of(
+                employeeSearchValues.getPageNum() - 1,
+                employeeSearchValues.getPageSize(),
+                Sort.by(employeeSearchValues.getSortDirection(), employeeSearchValues.getSortField()));
+    }
+
+    private void updateFields(Employee employee, EmployeeDto dto) throws CustomValidationException {
         Position position = findEmployeePosition(dto);
         employee.setFirstname(dto.getFirstname());
         employee.setLastname(dto.getLastname());

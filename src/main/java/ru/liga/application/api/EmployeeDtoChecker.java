@@ -1,6 +1,7 @@
 package ru.liga.application.api;
 
-import ru.liga.application.domain.soap.employee.EmployeeDto;
+
+import ru.liga.application.domain.dto.EmployeeDto;
 
 import java.util.List;
 

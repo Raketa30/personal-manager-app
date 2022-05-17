@@ -5,7 +5,9 @@ import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "employee", schema = "employee_management")
@@ -33,6 +35,9 @@ public class Employee {
     @ManyToOne
     @JoinColumn(name = "position_id", nullable = false)
     private Position position;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee")
+    private Set<Task> tasks = new HashSet<>();
 
     @Override
     public int hashCode() {

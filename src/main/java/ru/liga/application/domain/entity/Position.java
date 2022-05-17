@@ -33,6 +33,9 @@ public class Position {
     @Column(name = "max_salary")
     private Integer maxSalary;
 
+    @Column(name = "max_task_size")
+    private Integer maxTaskSize;
+
     @ManyToOne
     @JoinColumn(name = "department_id", nullable = false)
     private Department department;
@@ -41,15 +44,15 @@ public class Position {
     private Set<Employee> employees = new HashSet<>();
 
     @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
         Position that = (Position) o;
         return id != null && Objects.equals(id, that.id);
-    }
-
-    @Override
-    public int hashCode() {
-        return getClass().hashCode();
     }
 }

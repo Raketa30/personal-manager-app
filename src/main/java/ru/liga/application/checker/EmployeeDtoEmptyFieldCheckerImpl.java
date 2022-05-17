@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.liga.application.api.EmployeeDtoChecker;
 import ru.liga.application.api.MessageService;
-import ru.liga.application.domain.soap.employee.EmployeeDto;
+import ru.liga.application.domain.dto.EmployeeDto;
 
 import java.util.ArrayList;
 import java.util.List;

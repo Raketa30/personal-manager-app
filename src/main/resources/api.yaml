@@ -1,0 +1,167 @@
+openapi: 3.0.1
+info:
+  description: Employee task manager
+  version: "1.0"
+  title: Employee task manager
+
+  servers:
+    - url: 'https'
+
+paths:
+  #employee
+  /api/v1/employees:
+    get:
+      summary: Employee Page
+      description: Get page list by page params
+      operationId: getPageList
+      parameters:
+        - name: pageNum
+          in: query
+          schema:
+            type: integer
+            format: int32
+            default: 1
+        - name: pageSize
+          in: query
+          schema:
+            type: integer
+            format: int32
+            default: 10
+        - name: sortDirection
+          in: query
+          schema:
+            type: string
+            enum:
+              - ASC
+              - DESC
+            default: ASC
+        - name: sortField
+          in: query
+          schema:
+            type: string
+            default: "id"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EmployeePageList"
+    post:
+      summary: "Add new employee"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EmployeeDto"
+      responses:
+        200:
+          description: OK
+        403:
+          description: "Something went wrong"
+
+
+  /api/v1/employees/{id}:
+    get:
+      tags:
+        - employee
+      summary: Get employee by id
+      description: Get single employee by Id
+      parameters:
+        - name: id
+          in: path
+          description: employee Id
+          required: true
+          style: simple
+          schema:
+            type: string
+      responses:
+        200:
+          description: OK
+        404:
+          description: Employee not found
+        500:
+          description: ERROR
+
+
+#
+#  /api/v1/employees/{id}/tasks:
+#    get:
+#
+#  #task
+#  /api/v1/tasks:
+#    get:
+#    post:
+#
+#  /api/v1/tasks/{id}:
+#    get:
+#    post:
+#    update:
+#
+#  #position
+#  /api/v1/positions:
+#    get:
+#    post:
+#
+#  /api/v1/positions/{id}:
+#    get:
+#    post:
+#    update:
+#    delete:
+#
+#  #department
+#  /api/v1/departments:
+#    get:
+#    post:
+
+components:
+  schemas:
+    TaskDto:
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+          required: true
+          example: 2864ff6d-f5c9-4af3-9a2b-3fe37e32f7db
+        description:
+          type: string
+          required: true
+          example: "do some task!"
+
+    EmployeeDto:
+      type: object
+      properties:
+        id:
+          type: integer
+          required: false
+        firstname:
+          type: string
+          required: true
+          example: Ivan
+        lastname:
+          type: string
+          required: true
+          example: Ivanov
+        salary:
+          type: integer
+          required: true
+          example: 120000
+        positionTitle:
+          type: string
+          required: true
+          example: MANAGER
+        departmentTitle:
+          type: string
+          required: true
+          example: CRM
+        tasks:
+          type: array
+          minItems: 0
+          maxItems: 10
+          items:
+            $ref: "#/components/schemas/TaskDto"
+
+    EmployeePageList:
+      type: object
+

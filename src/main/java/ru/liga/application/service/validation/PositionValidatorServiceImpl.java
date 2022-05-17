@@ -4,9 +4,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.liga.application.api.MessageService;
 import ru.liga.application.api.PositionValidatorService;
+import ru.liga.application.domain.dto.EmployeeDto;
 import ru.liga.application.domain.entity.Position;
-import ru.liga.application.domain.soap.employee.EmployeeDto;
-import ru.liga.application.exception.PositionValidatorException;
+import ru.liga.application.exception.CustomValidationException;
 
 import static ru.liga.application.domain.type.Message.SALARY_NOT_IN_POSITION_RANGE;
 
@@ -16,10 +16,10 @@ public class PositionValidatorServiceImpl implements PositionValidatorService {
     private final MessageService messageService;
 
     @Override
-    public void validate(Position position, EmployeeDto employeeDto) throws PositionValidatorException {
+    public void validate(Position position, EmployeeDto employeeDto) {
         int salary = employeeDto.getSalary();
         if (checkWrongPositionSalary(position, salary)) {
-           throw new PositionValidatorException(getWrongSalaryMessage(position, salary));
+            throw new CustomValidationException(getWrongSalaryMessage(position, salary));
         }
     }
 
