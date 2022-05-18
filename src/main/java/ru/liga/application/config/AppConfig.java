@@ -11,10 +11,10 @@ public class AppConfig {
     @Bean
     public EmployeeMapper employeeMapper() {
         return new EmployeeMapper(taskMapper());
-    }
+    } //todo зачем бин ?
 
     @Bean
     public TaskMapper taskMapper() {
         return new TaskMapper();
-    }
+    } //todo зачем бин ?
 }

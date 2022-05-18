@@ -171,8 +171,6 @@ public class EmployeeServiceImpl implements EmployeeService {
         Sort.Direction sortDirection = employeePageDto.getSortDirection();
         String sortField = employeePageDto.getSortField();
         Sort sortBy = Sort.by(sortDirection, sortField);
-        //todo волшебное значение)) Вынести в константу и дать названия в соответствии для чего это
-        // done
         return PageRequest.of(zeroBasedPageNumber, pageSize, sortBy);
     }
 
