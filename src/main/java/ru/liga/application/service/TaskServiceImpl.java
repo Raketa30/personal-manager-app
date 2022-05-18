@@ -1,6 +1,7 @@
 package ru.liga.application.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.liga.application.api.EmployeeService;
@@ -12,10 +13,9 @@ import ru.liga.application.domain.entity.Task;
 import ru.liga.application.mapper.TaskMapper;
 import ru.liga.application.repository.TaskRepository;
 
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class TaskServiceImpl implements TaskService {
@@ -29,20 +29,15 @@ public class TaskServiceImpl implements TaskService {
     public TaskDto create(TaskDto taskDto) {
         Task created = createTask(taskDto);
         Task save = taskRepository.save(created);
+        log.info("TaskServiceImpl create() saved Task: {}", save);
         return taskMapper.taskToTaskDto(save);
     }
 
     @Override
     @Transactional
     public void delete(String uuid) {
+        log.info("TaskServiceImpl delete() deleted Task with uuid: {}", uuid);
         taskRepository.deleteByUuid(uuid);
-    }
-
-    @Override
-    public List<TaskDto> findAll(long employeeId) {
-        return taskRepository.findAll().stream()
-                .map(taskMapper::taskToTaskDto)
-                .collect(Collectors.toList());
     }
 
     @Override
@@ -55,7 +50,8 @@ public class TaskServiceImpl implements TaskService {
     public void update(String uuid, TaskDto taskDto) {
         taskValidatorService.validate(taskDto);
         Task updated = updateTaskFromDto(taskDto);
-        taskRepository.save(updated);
+        Task save = taskRepository.save(updated);
+        log.info("TaskServiceImpl update() saved Task: {}", save);
     }
 
     private Task createTask(TaskDto taskDto) {

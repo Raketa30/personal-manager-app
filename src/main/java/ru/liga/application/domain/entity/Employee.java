@@ -54,4 +54,14 @@ public class Employee {
         Employee employee = (Employee) o;
         return id != null && Objects.equals(id, employee.id);
     }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "(" +
+                "uuid = " + uuid + ", " +
+                "firstname = " + firstname + ", " +
+                "lastname = " + lastname + ", " +
+                "salary = " + salary + ", " +
+                "position = " + position + ")";
+    }
 }

@@ -55,4 +55,11 @@ public class Position {
         Position that = (Position) o;
         return id != null && Objects.equals(id, that.id);
     }
+
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + "(" +
+                "title = " + title + ", " +
+                "department = " + department + ")";
+    }
 }

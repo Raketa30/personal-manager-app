@@ -45,4 +45,14 @@ public class Task {
         Task task = (Task) o;
         return id != null && Objects.equals(id, task.id);
     }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "uuid='" + uuid + '\'' +
+                ", description='" + description + '\'' +
+                ", completed=" + completed +
+                ", employee=" + employee +
+                '}';
+    }
 }

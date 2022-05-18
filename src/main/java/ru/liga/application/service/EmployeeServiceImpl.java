@@ -1,6 +1,7 @@
 package ru.liga.application.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -26,6 +27,7 @@ import java.util.stream.IntStream;
 
 import static ru.liga.application.domain.type.Message.EMPLOYEE_NOT_FOUND;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class EmployeeServiceImpl implements EmployeeService {
@@ -47,6 +49,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         }
         Employee createdEmployee = createEmployee(employeeDto);
         Employee employee = employeeRepository.save(createdEmployee);
+        log.info("EmployeeService create() saved employee: {}", employee);
         response.setDto(mapper.employeeToEmployeeDto(employee));
         return response;
     }
@@ -58,6 +61,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         List<EmployeeDto> validDtoList = validateDtoList(employeeDtoList, response);
         List<Employee> createdEmployeeList = createEmployeeList(validDtoList);
         List<Employee> savedEmployeeList = employeeRepository.saveAll(createdEmployeeList);
+        log.info("EmployeeService createAll() saved employee: {}", savedEmployeeList);
         List<EmployeeDto> savedEmployeeDtoList = createDtoList(savedEmployeeList);
         response.setCreated(savedEmployeeDtoList);
         return response;
@@ -67,6 +71,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Transactional
     public void delete(String uuid) {
         employeeRepository.deleteEmployeeByUuid(uuid);
+        log.info("EmployeeService delete() deleted employee with uuid: {}", uuid);
     }
 
     @Override
@@ -76,37 +81,39 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee findEntityByUuid(String employeeUuid) {
-        return employeeRepository.findEmployeeByUuid(employeeUuid)
+    public Employee findEntityByUuid(String uuid) {
+        return employeeRepository.findEmployeeByUuid(uuid)
                 .orElseThrow(() -> {
                     String message = messageService.getMessage(EMPLOYEE_NOT_FOUND);
-                    return new NotFoundException(String.format(message, employeeUuid));
+                    log.info("EmployeeService findEntityByUuid() employee with uuid not found: {}", uuid);
+                    return new NotFoundException(String.format(message, uuid));
                 });
     }
 
     @Override
-    public EmployeeDto findByUuid(String employeeUuid) {
-        return employeeRepository.findEmployeeByUuid(employeeUuid)
+    public EmployeeDto findByUuid(String uuid) {
+        return employeeRepository.findEmployeeByUuid(uuid)
                 .map(mapper::employeeToEmployeeDto)
                 .orElseThrow(() -> {
                     String message = messageService.getMessage(EMPLOYEE_NOT_FOUND);
-                    return new NotFoundException(String.format(message, employeeUuid));
+                    log.info("EmployeeService findByUuid() employee with uuid not found: {}", uuid);
+                    return new NotFoundException(String.format(message, uuid));
                 });
     }
 
     @Override
-    public EmployeePageDto getPageList(EmployeePageDto searchValues) {
-        Page<EmployeeDto> employeeDtoPage = getEmployeeDtoPage(searchValues);
-        searchValues.setPage(employeeDtoPage);
+    public EmployeePageDto getPageList(EmployeePageDto pageDto) {
+        Page<EmployeeDto> employeeDtoPage = getEmployeeDtoPage(pageDto);
+        pageDto.setPage(employeeDtoPage);
         int totalPages = employeeDtoPage.getTotalPages();
         if (totalPages > 0) {
             final int firstPage = 1;
-            searchValues.setPageNumbers(
+            pageDto.setPageNumbers(
                     IntStream.rangeClosed(firstPage, totalPages)
                             .boxed()
                             .collect(Collectors.toList()));
         }
-        return searchValues;
+        return pageDto;
     }
 
     @Override
@@ -115,7 +122,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         validateEmployeeDto(employeeDto);
         Employee employee = findEmployeeById(uuid);
         updateFields(employee, employeeDto);
-        employeeRepository.save(employee);
+        Employee saved = employeeRepository.save(employee);
+        log.info("EmployeeService update() saved employee: {}", saved);
     }
 
     private List<EmployeeDto> createDtoList(List<Employee> createdEmployees) {
