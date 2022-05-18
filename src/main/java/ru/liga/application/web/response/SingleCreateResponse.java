@@ -11,9 +11,4 @@ import java.util.List;
 public class SingleCreateResponse<T> implements AbstractResponse {
     private T dto;
     private List<String> errors;
-
-    @Override
-    public boolean hasErrors() {
-        return !errors.isEmpty();
-    }
 }

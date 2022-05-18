@@ -16,11 +16,6 @@ public class MultiCreateResponse<T> implements AbstractResponse {
     private List<T> created;
     private final Map<T, List<String>> notValidDtoWithError = new HashMap<>();
 
-    @Override
-    public boolean hasErrors() {
-        return !notValidDtoWithError.isEmpty();
-    }
-
     public void putNotValidDtoWithErrorList(T dto, List<String> errors) {
         notValidDtoWithError.put(dto, errors);
     }
