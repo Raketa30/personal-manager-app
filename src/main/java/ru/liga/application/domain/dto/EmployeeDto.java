@@ -14,7 +14,7 @@ import java.util.List;
 @Builder
 @Data
 public class EmployeeDto {
-    private long id;
+    private String uuid;
     private String firstname;
     private String lastname;
     private int salary;

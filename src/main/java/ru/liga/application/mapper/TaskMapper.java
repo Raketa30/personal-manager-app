@@ -1,16 +1,14 @@
 package ru.liga.application.mapper;
 
-import org.springframework.stereotype.Component;
-import ru.liga.application.api.TaskMapper;
 import ru.liga.application.domain.dto.TaskDto;
 import ru.liga.application.domain.entity.Task;
 
-@Component
-public class TaskMapperImpl implements TaskMapper { //todo можно сделать не бином
-    @Override
+//todo можно сделать не бином
+// done
+public class TaskMapper {
     public TaskDto taskToTaskDto(Task task) {
         return TaskDto.builder()
-                .employeeId(task.getEmployee().getId())
+                .employeeUuid(task.getEmployee().getUuid())
                 .uuid(task.getUuid())
                 .completed(task.isCompleted())
                 .description(task.getDescription())

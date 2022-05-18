@@ -12,12 +12,13 @@ import ru.liga.application.domain.entity.Task;
 
 import java.net.URI;
 
-import static ru.liga.application.web.RestUrlV1.TASKS_URL;
+import static ru.liga.application.web.controller.TaskController.TASKS_URL;
 
 @RestController
 @RequestMapping(value = TASKS_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 public class TaskController {
+    public static final String TASKS_URL = "api/v1/tasks";
     private final TaskService taskService;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -31,6 +32,7 @@ public class TaskController {
     public ResponseEntity<Task> findByUuid(@PathVariable String uuid) {
         return ResponseEntity.ok(taskService.findByUuid(uuid));
     }
+
     @DeleteMapping("/{uuid}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable String uuid) {

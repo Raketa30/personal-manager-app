@@ -7,6 +7,4 @@ import java.util.List;
 
 public interface EmployeeDtoChecker {
     List<String> check(EmployeeDto dto);
-
-    boolean checkDtoIdEqualsZero(EmployeeDto employeeDto);
 }

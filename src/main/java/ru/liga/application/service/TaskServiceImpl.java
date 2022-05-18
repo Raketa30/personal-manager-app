@@ -4,12 +4,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.liga.application.api.EmployeeService;
-import ru.liga.application.api.TaskMapper;
 import ru.liga.application.api.TaskService;
 import ru.liga.application.api.TaskValidatorService;
 import ru.liga.application.domain.dto.TaskDto;
 import ru.liga.application.domain.entity.Employee;
 import ru.liga.application.domain.entity.Task;
+import ru.liga.application.mapper.TaskMapper;
 import ru.liga.application.repository.TaskRepository;
 
 import java.util.List;
@@ -60,7 +60,7 @@ public class TaskServiceImpl implements TaskService {
 
     private Task createTask(TaskDto taskDto) {
         taskValidatorService.validate(taskDto);
-        Employee employee = employeeService.findEntityById(taskDto.getEmployeeId());
+        Employee employee = employeeService.findEntityByUuid(taskDto.getEmployeeUuid());
         Task created = new Task();
         created.setEmployee(employee);
         created.setDescription(taskDto.getDescription());

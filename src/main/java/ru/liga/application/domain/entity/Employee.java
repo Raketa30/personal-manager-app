@@ -21,6 +21,9 @@ public class Employee {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "uuid")
+    private String uuid;
+
     @Column(name = "firstname")
     @NotBlank(message = "${entity.validation.employee.firstname}")
     private String firstname;

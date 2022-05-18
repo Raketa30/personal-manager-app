@@ -2,6 +2,8 @@ package ru.liga.application.api;
 
 import ru.liga.application.domain.dto.EmployeeDto;
 
+import java.util.List;
+
 public interface EmployeeValidatorService {
-    void validate(EmployeeDto employeeDto);
+    List<String> validate(EmployeeDto employeeDto);
 }

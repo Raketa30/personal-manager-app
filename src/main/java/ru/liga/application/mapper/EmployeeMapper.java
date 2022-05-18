@@ -1,27 +1,25 @@
 package ru.liga.application.mapper;
 
 import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Component;
-import ru.liga.application.api.EmployeeMapper;
-import ru.liga.application.api.TaskMapper;
 import ru.liga.application.domain.dto.EmployeeDto;
 import ru.liga.application.domain.dto.TaskDto;
 import ru.liga.application.domain.entity.Employee;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
-@Component
+
 @AllArgsConstructor
-public class EmployeeMapperImpl implements EmployeeMapper { //todo можно сделать не бином
+//todo можно сделать не бином
+// done
+public class EmployeeMapper {
     private final TaskMapper taskMapper;
 
-    @Override
     public Employee employeeDtoToEmployee(EmployeeDto employeeDto) {
-        Long id = employeeDto.getId() == 0 ? null : employeeDto.getId();
         return Employee.builder()
-                .id(id)
+                .uuid(UUID.randomUUID().toString())
                 .firstname(employeeDto.getFirstname())
                 .lastname(employeeDto.getLastname())
                 .salary(employeeDto.getSalary())
@@ -29,10 +27,9 @@ public class EmployeeMapperImpl implements EmployeeMapper { //todo можно с
                 .build();
     }
 
-    @Override
     public EmployeeDto employeeToEmployeeDto(Employee employee) {
         EmployeeDto employeeDto = new EmployeeDto();
-        employeeDto.setId(employee.getId());
+        employeeDto.setUuid(employee.getUuid());
         employeeDto.setFirstname(employee.getFirstname());
         employeeDto.setLastname(employee.getLastname());
         employeeDto.setPositionTitle(employee.getPosition().getTitle());

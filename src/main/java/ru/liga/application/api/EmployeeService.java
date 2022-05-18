@@ -1,28 +1,28 @@
 package ru.liga.application.api;
 
 import ru.liga.application.domain.dto.EmployeeDto;
+import ru.liga.application.domain.dto.EmployeePageDto;
 import ru.liga.application.domain.entity.Employee;
-import ru.liga.application.domain.search.EmployeeSearchValues;
 import ru.liga.application.exception.CustomValidationException;
-import ru.liga.application.web.EmployeeCreateResponse;
+import ru.liga.application.web.response.AbstractResponse;
 
 import java.util.List;
 
 public interface EmployeeService {
-    EmployeeDto create(EmployeeDto employeeDto) throws CustomValidationException;
+    AbstractResponse create(EmployeeDto dto) throws CustomValidationException;
 
-    EmployeeCreateResponse createAll(List<EmployeeDto> employeeDtoList);
+    AbstractResponse createAll(List<EmployeeDto> dtoList);
 
-    void delete(long employeeId);
+    void delete(String uuid);
 
     void deleteLastRow();
 
-    EmployeeDto findById(long employeeId);
+    Employee findEntityByUuid(String uuid);
 
-    Employee findEntityById(long employeeId);
+    EmployeeDto findByUuid(String uuid);
 
-    EmployeeSearchValues getPageList(EmployeeSearchValues employeeSearchValues);
+    EmployeePageDto getPageList(EmployeePageDto pageDto);
 
-    void update(Long id, EmployeeDto employeeDto) throws CustomValidationException;
+    void update(String uuid, EmployeeDto dto) throws CustomValidationException;
 
 }

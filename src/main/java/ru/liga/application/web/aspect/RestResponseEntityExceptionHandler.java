@@ -1,4 +1,4 @@
-package ru.liga.application.web.handler;
+package ru.liga.application.web.aspect;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

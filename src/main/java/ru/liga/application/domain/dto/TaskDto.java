@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Data
 public class TaskDto {
-    private long employeeId;
+    private String employeeUuid;
     private String uuid;
     private boolean completed;
     private String description;
