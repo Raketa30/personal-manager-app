@@ -3,15 +3,15 @@ package ru.liga.application.api;
 import ru.liga.application.domain.dto.EmployeeDto;
 import ru.liga.application.domain.dto.EmployeePageDto;
 import ru.liga.application.domain.entity.Employee;
-import ru.liga.application.exception.CustomValidationException;
-import ru.liga.application.web.response.AbstractResponse;
+import ru.liga.application.web.response.MultiCreateResponse;
+import ru.liga.application.web.response.SingleCreateResponse;
 
 import java.util.List;
 
 public interface EmployeeService {
-    AbstractResponse create(EmployeeDto dto) throws CustomValidationException;
+    SingleCreateResponse<EmployeeDto> create(EmployeeDto dto);
 
-    AbstractResponse createAll(List<EmployeeDto> dtoList);
+    MultiCreateResponse<EmployeeDto> createAll(List<EmployeeDto> dtoList);
 
     void delete(String uuid);
 
@@ -23,6 +23,6 @@ public interface EmployeeService {
 
     EmployeePageDto getPageList(EmployeePageDto pageDto);
 
-    void update(String uuid, EmployeeDto dto) throws CustomValidationException;
+    void update(String uuid, EmployeeDto dto);
 
 }

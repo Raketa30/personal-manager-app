@@ -8,7 +8,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class SingleCreateResponse<T> implements AbstractResponse {
+public class SingleCreateResponse<T> {
     private T dto;
     private List<String> errors;
 }

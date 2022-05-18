@@ -8,7 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.liga.application.api.EmployeeService;
 import ru.liga.application.domain.dto.EmployeeDto;
 import ru.liga.application.domain.dto.EmployeePageDto;
-import ru.liga.application.web.response.AbstractResponse;
+import ru.liga.application.web.response.MultiCreateResponse;
+import ru.liga.application.web.response.SingleCreateResponse;
 
 import java.util.List;
 
@@ -22,12 +23,12 @@ public class EmployeeController {
     private final EmployeeService employeeService;
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AbstractResponse> create(@RequestBody EmployeeDto employeeDto) {
+    public ResponseEntity<SingleCreateResponse<EmployeeDto>> create(@RequestBody EmployeeDto employeeDto) {
         return ResponseEntity.ok(employeeService.create(employeeDto));
     }
 
     @PostMapping(value = "/list", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AbstractResponse> createMulti(@RequestBody List<EmployeeDto> employeeDtoList) {
+    public ResponseEntity<MultiCreateResponse<EmployeeDto>> createMulti(@RequestBody List<EmployeeDto> employeeDtoList) {
         return ResponseEntity.ok(employeeService.createAll(employeeDtoList));
     }
 

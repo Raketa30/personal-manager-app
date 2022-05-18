@@ -11,7 +11,7 @@ import java.util.Map;
 @Getter
 @NoArgsConstructor
 //todo должен лежать в другом пакете
-public class MultiCreateResponse<T> implements AbstractResponse {
+public class MultiCreateResponse<T> {
     @Setter
     private List<T> created;
     private final Map<T, List<String>> notValidDtoWithError = new HashMap<>();
