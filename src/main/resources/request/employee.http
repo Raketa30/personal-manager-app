@@ -1,0 +1,151 @@
+
+###
+GET http://localhost:8080/api/v1/employees/e39faa51-89ce-4b0c-a789-d2e00df9f4e8
+
+### create single wrong
+POST http://localhost:8080/api/v1/employees
+Content-Type: application/json
+
+{
+  "firstname": "",
+  "lastname": "adsasasddasdasd",
+  "salary": 7000220,
+  "positionTitle": "JUNIOR_DEVELOPER",
+  "departmentTitle": "CRM",
+  "tasks": []
+}
+
+### create single correct
+POST http://localhost:8080/api/v1/employees
+Content-Type: application/json
+
+{
+  "firstname": "SSSSS",
+  "lastname": "SSSSSSSS",
+  "salary": 70000,
+  "positionTitle": "JUNIOR_DEVELOPER",
+  "departmentTitle": "CRM",
+  "tasks": []
+}
+
+
+
+### create multi
+POST http://localhost:8080/api/v1/employees/list
+Content-Type: application/json
+
+[
+  {
+    "firstname": "asdasdasd",
+    "lastname": "adsasasddasdasd",
+    "salary": 70000,
+    "positionTitle": "JUNIOR_DEVELOPER",
+    "departmentTitle": "CRM",
+    "tasks": []
+  },
+  {
+    "firstname": "asdasdasd",
+    "lastname": "adsasdasdasdasd",
+    "salary": 7055000,
+    "positionTitle": "JUNIOR_DEVELOPER",
+    "departmentTitle": "CRM",
+    "tasks": []
+  },
+  {
+    "firstname": "asdasdasd",
+    "lastname": "adsasdaasddassd",
+    "salary": 70000,
+    "positionTitle": "JUNIOR_DEVELOPER",
+    "departmentTitle": "CRM",
+    "tasks": []
+  },
+  {
+    "firstname": "",
+    "lastname": "adsasdasd",
+    "salary": 70000,
+    "positionTitle": "JUNIOR_DjVELOPER",
+    "departmentTitle": "CRM",
+    "tasks": []
+  },
+  {
+    "firstname": "asdasdasd",
+    "lastname": "adsasasddasdasd",
+    "salary": 70000,
+    "positionTitle": "",
+    "departmentTitle": "",
+    "tasks": []
+  },
+  {
+    "firstname": "asdasdasd",
+    "lastname": "adsasdasdasdasd",
+    "salary": 70000,
+    "positionTitle": "JUNIOR_DEVELOPER",
+    "departmentTitle": "CRM",
+    "tasks": []
+  },
+  {
+    "firstname": "asdasdasd",
+    "lastname": "adsasdaasddassd",
+    "salary": 70000,
+    "positionTitle": "JUNIOR_DEVELOPER",
+    "departmentTitle": "CRM",
+    "tasks": []
+  },
+  {
+    "firstname": "",
+    "lastname": "adsasdasd",
+    "salary": 70000,
+    "positionTitle": "JUNIOR_DjVELOPER",
+    "departmentTitle": "CRM",
+    "tasks": []
+  }
+]
+
+### create multi
+GET http://localhost:8080/api/v1/employees/list
+Content-Type: application/json
+
+{
+  "sortDirection": "ASC",
+  "sortField": "firstname",
+  "pageNum": 1,
+  "pageSize": 3
+}
+
+### update
+PUT http://localhost:8080/api/v1/employees/e39faa51-89ce-4b0c-a789-d2e00df9f4e8
+Content-Type: application/json
+
+{
+  "firstname": "Biba2222",
+  "lastname": "Boba",
+  "salary": 70000,
+  "positionTitle": "JUNIOR_DEVELOPER",
+  "departmentTitle": "CRM",
+  "tasks": []
+}
+
+<> 2022-05-17T094338.500.json
+<> 2022-05-17T092238.201.json
+<> 2022-05-17T092100.500.json
+<> 2022-05-17T091934.500.json
+<> 2022-05-17T091844.404.json
+<> 2022-05-16T173545.200.json
+<> 2022-05-16T173544.200.json
+<> 2022-05-16T173543.200.json
+<> 2022-05-16T173542.200.json
+<> 2022-05-16T173537.200.json
+<> 2022-05-16T173447.200.json
+<> 2022-05-16T173446-1.200.json
+<> 2022-05-16T173446.200.json
+<> 2022-05-16T173445.200.json
+<> 2022-05-16T173443.200.json
+<> 2022-05-16T173426.200.json
+<> 2022-05-16T173417.500.json
+<> 2022-05-16T173314.500.json
+<> 2022-05-16T173253.500.json
+<> 2022-05-16T173248.500.json
+<> 2022-05-16T173207.404.json
+<> 2022-05-16T173154.404.json
+<> 2022-05-16T173124.404.json
+<> 2022-05-16T172934.500.json

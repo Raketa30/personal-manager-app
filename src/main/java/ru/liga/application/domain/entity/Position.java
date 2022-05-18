@@ -33,12 +33,20 @@ public class Position {
     @Column(name = "max_salary")
     private Integer maxSalary;
 
+    @Column(name = "max_task_size")
+    private Integer maxTaskSize;
+
     @ManyToOne
     @JoinColumn(name = "department_id", nullable = false)
     private Department department;
 
     @OneToMany(mappedBy = "position")
     private Set<Employee> employees = new HashSet<>();
+
+    @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -49,7 +57,9 @@ public class Position {
     }
 
     @Override
-    public int hashCode() {
-        return getClass().hashCode();
+    public String toString() {
+        return getClass().getSimpleName() + "(" +
+                "title = " + title + ", " +
+                "department = " + department + ")";
     }
 }

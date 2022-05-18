@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import ru.liga.application.api.EmployeeDtoChecker;
 import ru.liga.application.api.MessageService;
-import ru.liga.application.domain.soap.employee.EmployeeDto;
+import ru.liga.application.domain.dto.EmployeeDto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,10 +32,5 @@ public class EmployeeDtoEmptyFieldCheckerImpl implements EmployeeDtoChecker {
             messages.add(messageService.getMessage(EMPTY_DEPARTMENT));
         }
         return messages;
-    }
-
-    @Override
-    public boolean checkDtoIdEqualsZero(EmployeeDto employeeDto) {
-        return employeeDto.getId() == 0;
     }
 }

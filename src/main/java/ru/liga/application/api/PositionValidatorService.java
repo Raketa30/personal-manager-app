@@ -1,9 +1,9 @@
 package ru.liga.application.api;
 
-import ru.liga.application.domain.entity.Position;
-import ru.liga.application.domain.soap.employee.EmployeeDto;
-import ru.liga.application.exception.PositionValidatorException;
+import ru.liga.application.domain.dto.EmployeeDto;
+
+import java.util.List;
 
 public interface PositionValidatorService {
-    void validate(Position position, EmployeeDto employeeDto) throws PositionValidatorException;
+    List<String> validate(EmployeeDto employeeDto);
 }

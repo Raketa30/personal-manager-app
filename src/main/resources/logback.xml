@@ -1,5 +1,5 @@
 <configuration>
-    <property name="log_dir" value="./employee-manager"/>
+    <property name="log_dir" value="./logs"/>
     <property name="maxHistory" value="7"/>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
@@ -45,7 +45,7 @@
         </encoder>
     </appender>
 
-    <root level="debug">
+    <root level="info">
         <appender-ref ref="STDOUT"/>
         <appender-ref ref="DEBUG"/>
         <appender-ref ref="INFO"/>

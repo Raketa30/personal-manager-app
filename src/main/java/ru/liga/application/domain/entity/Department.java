@@ -31,6 +31,11 @@ public class Department {
     private Set<Position> positions = new HashSet<>();
 
     @Override
+    public int hashCode() {
+        return getClass().hashCode();
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || Hibernate.getClass(this) != Hibernate.getClass(o)) return false;
@@ -39,7 +44,8 @@ public class Department {
     }
 
     @Override
-    public int hashCode() {
-        return getClass().hashCode();
+    public String toString() {
+        return getClass().getSimpleName() + "(" +
+                "title = " + title + ")";
     }
 }
