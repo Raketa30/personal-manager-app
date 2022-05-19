@@ -22,7 +22,7 @@ public class TaskServiceImpl implements TaskService {
     private final TaskRepository taskRepository;
     private final EmployeeService employeeService;
     private final TaskValidatorService taskValidatorService;
-    private final TaskMapper taskMapper;
+
 
     @Override
     @Transactional
@@ -30,7 +30,7 @@ public class TaskServiceImpl implements TaskService {
         Task created = createTask(taskDto);
         Task save = taskRepository.save(created);
         log.info("TaskServiceImpl create() saved Task: {}", save);
-        return taskMapper.taskToTaskDto(save);
+        return TaskMapper.taskToTaskDto(save);
     }
 
     @Override

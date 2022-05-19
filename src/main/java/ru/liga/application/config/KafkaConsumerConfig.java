@@ -10,7 +10,7 @@ import org.springframework.kafka.config.KafkaListenerContainerFactory;
 import org.springframework.kafka.core.ConsumerFactory;
 import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import ru.liga.application.domain.entity.Employee;
-import ru.liga.application.service.queue.EmployeeDeserializer;
+import ru.liga.application.support.EmployeeDeserializer;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -6,7 +6,6 @@ import ru.liga.application.domain.entity.Employee;
 
 import java.util.HashSet;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 public class EmployeeMapper {
@@ -15,7 +14,8 @@ public class EmployeeMapper {
 
     public static Employee employeeDtoToEmployee(EmployeeDto employeeDto) {
         return Employee.builder()
-                .uuid(UUID.randomUUID().toString()) //todo эт плохо) у тебя в маппере какая то логика происходит такое лучше где в другом месте делать
+                //todo эт плохо) у тебя в маппере какая то логика происходит такое лучше где в другом месте делать
+                // done
                 .firstname(employeeDto.getFirstname())
                 .lastname(employeeDto.getLastname())
                 .salary(employeeDto.getSalary())

@@ -5,6 +5,6 @@ import ru.liga.application.domain.dto.EmployeeDto;
 
 import java.util.List;
 
-public interface EmployeeDtoChecker {
+public interface EmployeeChecker {
     List<String> check(EmployeeDto dto);
 }

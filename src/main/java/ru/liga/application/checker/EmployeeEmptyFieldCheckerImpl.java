@@ -2,7 +2,7 @@ package ru.liga.application.checker;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import ru.liga.application.api.EmployeeDtoChecker;
+import ru.liga.application.api.EmployeeChecker;
 import ru.liga.application.api.MessageService;
 import ru.liga.application.domain.dto.EmployeeDto;
 
@@ -13,7 +13,9 @@ import static ru.liga.application.domain.type.Message.*;
 
 @Component
 @RequiredArgsConstructor
-public class EmployeeDtoEmptyFieldCheckerImpl implements EmployeeDtoChecker { //todo EmployeeCheckerImpl и интерфейс соответственно можно без Dto написать))
+//todo EmployeeCheckerImpl и интерфейс соответственно можно без Dto написать))
+// done
+public class EmployeeEmptyFieldCheckerImpl implements EmployeeChecker {
     private final MessageService messageService;
 
     @Override
