@@ -156,8 +156,6 @@ public class EmployeeServiceImpl implements EmployeeService {
     private void setPageNumbersToPageDto(PageDto<EmployeeDto> pageDto) {
         Page<EmployeeDto> page = pageDto.getPage();
         if (page.hasContent()) {
-            //todo вынести в константу ?
-            // done - нигде больше не используется же
             final int firstPage = 1;
             int totalPages = page.getTotalPages();
             pageDto.setPageNumbers(
