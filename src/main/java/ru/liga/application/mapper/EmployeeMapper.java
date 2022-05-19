@@ -1,6 +1,5 @@
 package ru.liga.application.mapper;
 
-import lombok.AllArgsConstructor;
 import ru.liga.application.domain.dto.EmployeeDto;
 import ru.liga.application.domain.dto.TaskDto;
 import ru.liga.application.domain.entity.Employee;
@@ -10,14 +9,13 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-
-@AllArgsConstructor
 //todo можно сделать не бином
 // done
 public class EmployeeMapper {
-    private final TaskMapper taskMapper;
+    private EmployeeMapper() {
+    }
 
-    public Employee employeeDtoToEmployee(EmployeeDto employeeDto) {
+    public static Employee employeeDtoToEmployee(EmployeeDto employeeDto) {
         return Employee.builder()
                 .uuid(UUID.randomUUID().toString())
                 .firstname(employeeDto.getFirstname())
@@ -27,7 +25,7 @@ public class EmployeeMapper {
                 .build();
     }
 
-    public EmployeeDto employeeToEmployeeDto(Employee employee) {
+    public static EmployeeDto employeeToEmployeeDto(Employee employee) {
         EmployeeDto employeeDto = new EmployeeDto();
         employeeDto.setUuid(employee.getUuid());
         employeeDto.setFirstname(employee.getFirstname());
@@ -39,9 +37,9 @@ public class EmployeeMapper {
         return employeeDto;
     }
 
-    private List<TaskDto> getTaskDtoList(Employee employee) {
+    private static List<TaskDto> getTaskDtoList(Employee employee) {
         return employee.getTasks().stream()
-                .map(taskMapper::taskToTaskDto)
+                .map(TaskMapper::taskToTaskDto)
                 .collect(Collectors.toList());
     }
 }

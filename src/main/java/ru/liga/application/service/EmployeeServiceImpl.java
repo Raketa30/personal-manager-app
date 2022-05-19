@@ -16,10 +16,12 @@ import ru.liga.application.domain.entity.Position;
 import ru.liga.application.exception.NotFoundException;
 import ru.liga.application.mapper.EmployeeMapper;
 import ru.liga.application.repository.EmployeeRepository;
+import ru.liga.application.service.queue.EmployeeTaskProducerService;
 import ru.liga.application.web.response.MultiCreateResponse;
 import ru.liga.application.web.response.SingleCreateResponse;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -34,9 +36,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final PositionService positionService;
     private final MessageService messageService;
-    private final EmployeeMapper mapper;
     private final EmployeeValidatorService employeeValidatorService;
     private final PositionValidatorService positionValidatorService;
+    private final EmployeeTaskProducerService producerService;
 
     @Override
     @Transactional
@@ -44,13 +46,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         SingleCreateResponse<EmployeeDto> response = new SingleCreateResponse<>();
         List<String> errors = validateEmployeeDto(employeeDto);
         if (!errors.isEmpty()) {
-            response.setErrors(errors);
+            response.setDto(employeeDto);
+            response.setMessages(errors);
             return response;
         }
         Employee createdEmployee = createEmployee(employeeDto);
-        Employee employee = employeeRepository.save(createdEmployee);
-        log.info("EmployeeService create() saved employee: {}", employee);
-        response.setDto(mapper.employeeToEmployeeDto(employee));
+        producerService.createTask(Collections.singletonList(createdEmployee));
+        response.setMessages(Collections.singletonList("created"));
         return response;
     }
 
@@ -60,10 +62,7 @@ public class EmployeeServiceImpl implements EmployeeService {
         MultiCreateResponse<EmployeeDto> response = new MultiCreateResponse<>();
         List<EmployeeDto> validDtoList = validateDtoList(employeeDtoList, response);
         List<Employee> createdEmployeeList = createEmployeeList(validDtoList);
-        List<Employee> savedEmployeeList = employeeRepository.saveAll(createdEmployeeList);
-        log.info("EmployeeService createAll() saved employee: {}", savedEmployeeList);
-        List<EmployeeDto> savedEmployeeDtoList = createDtoList(savedEmployeeList);
-        response.setCreated(savedEmployeeDtoList);
+        producerService.createTask(createdEmployeeList);
         return response;
     }
 
@@ -93,7 +92,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public EmployeeDto findByUuid(String uuid) {
         return employeeRepository.findEmployeeByUuid(uuid)
-                .map(mapper::employeeToEmployeeDto)
+                .map(EmployeeMapper::employeeToEmployeeDto)
                 .orElseThrow(() -> {
                     String message = messageService.getMessage(EMPLOYEE_NOT_FOUND);
                     log.info("EmployeeService findByUuid() employee with uuid not found: {}", uuid);
@@ -122,18 +121,12 @@ public class EmployeeServiceImpl implements EmployeeService {
         validateEmployeeDto(employeeDto);
         Employee employee = findEmployeeById(uuid);
         updateFields(employee, employeeDto);
-        Employee saved = employeeRepository.save(employee);
-        log.info("EmployeeService update() saved employee: {}", saved);
-    }
-
-    private List<EmployeeDto> createDtoList(List<Employee> createdEmployees) {
-        return createdEmployees.stream()
-                .map(mapper::employeeToEmployeeDto)
-                .collect(Collectors.toList());
+        producerService.createTask(Collections.singletonList(employee));
+        log.info("EmployeeService update() saved employee: {}", employee);
     }
 
     private Employee createEmployee(EmployeeDto employeeDto) {
-        Employee createdEmployee = mapper.employeeDtoToEmployee(employeeDto);
+        Employee createdEmployee = EmployeeMapper.employeeDtoToEmployee(employeeDto);
         Optional<Position> position =
                 positionService.findByTitleAndDepartmentTitle(employeeDto.getPositionTitle(), employeeDto.getDepartmentTitle());
         createdEmployee.setPosition(position.orElseThrow());
@@ -157,7 +150,7 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private Page<EmployeeDto> getEmployeeDtoPage(EmployeePageDto searchValues) {
         Page<Employee> employeePage = getEmployeePage(searchValues);
-        return employeePage.map(mapper::employeeToEmployeeDto);
+        return employeePage.map(EmployeeMapper::employeeToEmployeeDto);
     }
 
     private Page<Employee> getEmployeePage(EmployeePageDto employeePageDto) {

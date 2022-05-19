@@ -6,7 +6,7 @@ import ru.liga.application.domain.entity.Task;
 //todo можно сделать не бином
 // done
 public class TaskMapper {
-    public TaskDto taskToTaskDto(Task task) {
+    public static TaskDto taskToTaskDto(Task task) {
         return TaskDto.builder()
                 .employeeUuid(task.getEmployee().getUuid())
                 .uuid(task.getUuid())

@@ -10,5 +10,5 @@ import java.util.List;
 @Data
 public class SingleCreateResponse<T> {
     private T dto;
-    private List<String> errors;
+    private List<String> messages;
 }

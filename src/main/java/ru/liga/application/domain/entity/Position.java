@@ -1,5 +1,6 @@
 package ru.liga.application.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,6 +41,7 @@ public class Position {
     @JoinColumn(name = "department_id", nullable = false)
     private Department department;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "position")
     private Set<Employee> employees = new HashSet<>();
 

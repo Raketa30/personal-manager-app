@@ -1,5 +1,6 @@
 package ru.liga.application.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.hibernate.Hibernate;
 
@@ -38,6 +39,7 @@ public class Employee {
     @ManyToOne
     @JoinColumn(name = "position_id", nullable = false)
     private Position position;
+
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee")
     private Set<Task> tasks = new HashSet<>();
