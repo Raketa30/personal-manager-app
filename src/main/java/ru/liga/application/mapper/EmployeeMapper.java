@@ -14,8 +14,6 @@ public class EmployeeMapper {
 
     public static Employee employeeDtoToEmployee(EmployeeDto employeeDto) {
         return Employee.builder()
-                //todo эт плохо) у тебя в маппере какая то логика происходит такое лучше где в другом месте делать
-                // done
                 .firstname(employeeDto.getFirstname())
                 .lastname(employeeDto.getLastname())
                 .salary(employeeDto.getSalary())

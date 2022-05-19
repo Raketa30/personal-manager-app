@@ -155,8 +155,6 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private void setPageNumbersToPageDto(PageDto<EmployeeDto> pageDto) {
         Page<EmployeeDto> page = pageDto.getPage();
-        //todo волшебная цифра)) вынеси в константу
-        // done
         if (page.hasContent()) {
             //todo вынести в константу ?
             // done - нигде больше не используется же
