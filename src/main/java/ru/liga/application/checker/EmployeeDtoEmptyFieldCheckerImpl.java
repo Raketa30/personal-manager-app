@@ -13,7 +13,7 @@ import static ru.liga.application.domain.type.Message.*;
 
 @Component
 @RequiredArgsConstructor
-public class EmployeeDtoEmptyFieldCheckerImpl implements EmployeeDtoChecker {
+public class EmployeeDtoEmptyFieldCheckerImpl implements EmployeeDtoChecker { //todo EmployeeCheckerImpl и интерфейс соответственно можно без Dto написать))
     private final MessageService messageService;
 
     @Override

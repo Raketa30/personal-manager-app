@@ -3,9 +3,7 @@ package ru.liga.application.mapper;
 import ru.liga.application.domain.dto.TaskDto;
 import ru.liga.application.domain.entity.Task;
 
-//todo можно сделать не бином
-// done
-public class TaskMapper {
+public class TaskMapper { //todo в дургом маппере сделал приватный конструктор, а тут нет. Нужно придерживаться стиля написания))
     public static TaskDto taskToTaskDto(Task task) {
         return TaskDto.builder()
                 .employeeUuid(task.getEmployee().getUuid())

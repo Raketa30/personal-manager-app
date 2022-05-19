@@ -9,12 +9,10 @@ import java.util.Map;
 
 @Getter
 @NoArgsConstructor
-//todo должен лежать в другом пакете
-// done
-public class MultiCreateResponse<T> {
+public class MultiCreateResponse<T> { //todo пенести в domain а там в пакет response
     private final Map<T, List<String>> notValidDtoWithError = new HashMap<>();
 
-    public void putNotValidDtoWithErrorList(T dto, List<String> errors) {
+    public void putNotValidDtoWithErrorList(T dto, List<String> errors) { //todo тогда этот метод нужно перенести в другое место)
         notValidDtoWithError.put(dto, errors);
     }
 }

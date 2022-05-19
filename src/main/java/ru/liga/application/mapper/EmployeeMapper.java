@@ -9,15 +9,13 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
-//todo можно сделать не бином
-// done
 public class EmployeeMapper {
     private EmployeeMapper() {
     }
 
     public static Employee employeeDtoToEmployee(EmployeeDto employeeDto) {
         return Employee.builder()
-                .uuid(UUID.randomUUID().toString())
+                .uuid(UUID.randomUUID().toString()) //todo эт плохо) у тебя в маппере какая то логика происходит такое лучше где в другом месте делать
                 .firstname(employeeDto.getFirstname())
                 .lastname(employeeDto.getLastname())
                 .salary(employeeDto.getSalary())

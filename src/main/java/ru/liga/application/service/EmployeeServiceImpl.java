@@ -105,8 +105,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         Page<EmployeeDto> employeeDtoPage = getEmployeeDtoPage(pageDto);
         pageDto.setPage(employeeDtoPage);
         int totalPages = employeeDtoPage.getTotalPages();
-        if (totalPages > 0) {
-            final int firstPage = 1;
+        if (totalPages > 0) { //todo волшебная цифра)) вынеси в константу
+            final int firstPage = 1; //todo вынести в константу ?
             pageDto.setPageNumbers(
                     IntStream.rangeClosed(firstPage, totalPages)
                             .boxed()

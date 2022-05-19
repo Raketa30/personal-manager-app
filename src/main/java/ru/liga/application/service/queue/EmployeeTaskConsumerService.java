@@ -28,7 +28,7 @@ public class EmployeeTaskConsumerService {
         Employee employee = consumerRecord.value();
         String taskUuid = consumerRecord.key();
         int deletedRows = taskRepository.deleteByUuid(taskUuid);
-        if (deletedRows == 1) {
+        if (deletedRows == 1) { //todo волшебная цифра)) Вынеси в константу
             saveEmployee(employee);
         }
     }
