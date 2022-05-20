@@ -1,4 +1,4 @@
-package ru.liga.application.web.response;
+package ru.liga.application.domain.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -8,7 +8,9 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+//todo перенести в domain а там в пакет response
+// done
 public class SingleCreateResponse<T> {
     private T dto;
-    private List<String> errors;
+    private List<String> messages;
 }

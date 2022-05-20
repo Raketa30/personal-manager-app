@@ -7,8 +7,6 @@ import ru.liga.application.api.EmployeeService;
 
 @Configuration
 @RequiredArgsConstructor
-//todo по названию DB по середине не очень) Можно его убрать
-// done
 public class EmployeeScheduler {
     private final EmployeeService employeeService;
 

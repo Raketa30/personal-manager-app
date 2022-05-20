@@ -39,6 +39,7 @@ public class Employee {
     @JoinColumn(name = "position_id", nullable = false)
     private Position position;
 
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "employee")
     private Set<Task> tasks = new HashSet<>();
 

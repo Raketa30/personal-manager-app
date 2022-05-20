@@ -7,9 +7,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.liga.application.api.EmployeeService;
 import ru.liga.application.domain.dto.EmployeeDto;
-import ru.liga.application.domain.dto.EmployeePageDto;
-import ru.liga.application.web.response.MultiCreateResponse;
-import ru.liga.application.web.response.SingleCreateResponse;
+import ru.liga.application.domain.dto.PageDto;
+import ru.liga.application.domain.response.MultiCreateResponse;
+import ru.liga.application.domain.response.SingleCreateResponse;
 
 import java.util.List;
 
@@ -44,7 +44,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<EmployeePageDto> getPageList(@RequestBody EmployeePageDto searchValues) {
+    public ResponseEntity<PageDto<EmployeeDto>> getPageList(@RequestBody PageDto<EmployeeDto> searchValues) {
         return ResponseEntity.ok(employeeService.getPageList(searchValues));
     }
 

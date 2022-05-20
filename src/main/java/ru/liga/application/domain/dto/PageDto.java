@@ -12,11 +12,11 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class EmployeePageDto {
+public class PageDto<T> {
     private Sort.Direction sortDirection = Sort.Direction.ASC;
     private String sortField = "id";
     private int pageNum = 1;
     private int pageSize = 10;
     private List<Integer> pageNumbers = Collections.singletonList(1);
-    private Page<EmployeeDto> page;
+    private Page<T> page;
 }

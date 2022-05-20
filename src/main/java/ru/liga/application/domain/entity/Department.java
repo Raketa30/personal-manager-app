@@ -1,5 +1,6 @@
 package ru.liga.application.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +28,7 @@ public class Department {
     @NotBlank(message = "${entity.validation.department.title}")
     private String title;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "department")
     private Set<Position> positions = new HashSet<>();
 

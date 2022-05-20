@@ -1,10 +1,10 @@
 package ru.liga.application.api;
 
 import ru.liga.application.domain.dto.EmployeeDto;
-import ru.liga.application.domain.dto.EmployeePageDto;
+import ru.liga.application.domain.dto.PageDto;
 import ru.liga.application.domain.entity.Employee;
-import ru.liga.application.web.response.MultiCreateResponse;
-import ru.liga.application.web.response.SingleCreateResponse;
+import ru.liga.application.domain.response.MultiCreateResponse;
+import ru.liga.application.domain.response.SingleCreateResponse;
 
 import java.util.List;
 
@@ -21,8 +21,7 @@ public interface EmployeeService {
 
     EmployeeDto findByUuid(String uuid);
 
-    EmployeePageDto getPageList(EmployeePageDto pageDto);
+    PageDto<EmployeeDto> getPageList(PageDto<EmployeeDto> pageDto);
 
     void update(String uuid, EmployeeDto dto);
-
 }

@@ -2,7 +2,7 @@ package ru.liga.application.service.validation;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.liga.application.api.EmployeeDtoChecker;
+import ru.liga.application.api.EmployeeChecker;
 import ru.liga.application.api.EmployeeValidatorService;
 import ru.liga.application.domain.dto.EmployeeDto;
 
@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class EmployeeValidatorServiceImpl implements EmployeeValidatorService {
-    private final EmployeeDtoChecker dtoChecker;
+    private final EmployeeChecker dtoChecker;
 
     @Override
     public List<String> validate(EmployeeDto dto) {
