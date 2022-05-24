@@ -1,6 +1,7 @@
 package ru.liga.application.web.controller;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -23,6 +24,7 @@ import java.util.Map;
 
 import static ru.liga.application.web.controller.AuthController.AUTH_URL;
 
+@Slf4j
 @RestController
 @AllArgsConstructor
 @RequestMapping(AUTH_URL)
@@ -33,6 +35,7 @@ public class AuthController {
 
     @PostMapping
     public ResponseEntity<?> auth(@RequestBody @Valid AuthDto authDto) {
+        log.debug("AuthController auth() authDto: {}", authDto);
         try {
             String username = authDto.getUsername();
             Authentication authentication = authenticationManager.authenticate(
@@ -45,6 +48,7 @@ public class AuthController {
             response.put("jwt", jwtToken);
             return ResponseEntity.ok(response);
         } catch (AuthenticationException e) {
+            log.info("AuthController auth: AuthenticationException", e);
             throw new BadCredentialsException("Invalid username or password");
         }
     }
