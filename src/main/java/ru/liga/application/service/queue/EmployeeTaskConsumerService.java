@@ -27,12 +27,15 @@ public class EmployeeTaskConsumerService {
     public void saveTaskListener(ConsumerRecord<String, Employee> consumerRecord) {
         Employee employee = consumerRecord.value();
         String taskUuid = consumerRecord.key();
-        int deletedRows = taskRepository.deleteByUuid(taskUuid);
         //todo волшебная цифра)) Вынеси в константу
         // done
-        if (deletedRows > 0) {
+        if (isTaskExist(taskUuid)) {
             saveEmployee(employee);
         }
     }
 
+    private boolean isTaskExist(String taskUuid) {
+        int deletedRows = taskRepository.deleteByUuid(taskUuid);
+        return deletedRows > 0;
+    }
 }
