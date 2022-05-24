@@ -34,5 +34,4 @@ public class EmployeeTaskProducerService {
         });
         kafkaTemplate.flush();
     }
-
 }

@@ -44,3 +44,7 @@ operation:
   task:
     topic:
       employee: manager.local.employee.task.execute
+
+jwt:
+  secret: sd4a#$21Jsdsl$
+  token-expiration: 86400000

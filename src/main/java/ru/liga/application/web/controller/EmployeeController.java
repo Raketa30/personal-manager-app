@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.liga.application.api.EmployeeService;
 import ru.liga.application.domain.dto.EmployeeDto;
@@ -17,6 +18,7 @@ import static ru.liga.application.web.controller.EmployeeController.EMPLOYEES_UR
 
 @RequiredArgsConstructor
 @RestController
+@PreAuthorize("hasAuthority('ADMIN')")
 @RequestMapping(value = EMPLOYEES_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class EmployeeController {
     public static final String EMPLOYEES_URL = "api/v1/employees";
