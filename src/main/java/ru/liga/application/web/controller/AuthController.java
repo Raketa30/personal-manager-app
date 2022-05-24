@@ -17,6 +17,7 @@ import ru.liga.application.domain.dto.AuthDto;
 import ru.liga.application.security.jwt.JwtTokenProvider;
 import ru.liga.application.security.jwt.JwtUser;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,7 +32,7 @@ public class AuthController {
     private final JwtTokenProvider jwtTokenProvider;
 
     @PostMapping
-    public ResponseEntity<?> auth(@RequestBody AuthDto authDto) {
+    public ResponseEntity<?> auth(@RequestBody @Valid AuthDto authDto) {
         try {
             String username = authDto.getUsername();
             Authentication authentication = authenticationManager.authenticate(
