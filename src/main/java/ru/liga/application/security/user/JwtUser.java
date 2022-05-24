@@ -1,4 +1,4 @@
-package ru.liga.application.security.jwt;
+package ru.liga.application.security.user;
 
 import lombok.*;
 

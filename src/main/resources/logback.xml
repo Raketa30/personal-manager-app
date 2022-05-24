@@ -7,7 +7,6 @@
      ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
         <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
             <layout class="ru.liga.application.layout.MaskingPatternLayout">
-                <maskPattern>(password=\w+)</maskPattern> <!-- password JSON pattern -->
                 <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
             </layout>
         </encoder>
@@ -28,7 +27,6 @@
         </rollingPolicy>
         <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
             <layout class="ru.liga.application.layout.MaskingPatternLayout">
-                <maskPattern>(password=\w+)</maskPattern> <!-- password JSON pattern -->
                 <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
             </layout>
         </encoder>
@@ -48,7 +46,6 @@
         </rollingPolicy>
         <encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
             <layout class="ru.liga.application.layout.MaskingPatternLayout">
-                <maskPattern>(password=\w+)</maskPattern> <!-- password JSON pattern -->
                 <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger - %msg%n</pattern>
             </layout>
         </encoder>

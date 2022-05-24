@@ -5,7 +5,6 @@ import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import ru.liga.application.security.jwt.JwtUser;
 
 import java.util.Collection;
 import java.util.Collections;

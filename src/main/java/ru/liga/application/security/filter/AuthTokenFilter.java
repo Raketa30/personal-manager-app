@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 import ru.liga.application.security.jwt.JwtTokenProvider;
-import ru.liga.application.security.jwt.JwtUser;
+import ru.liga.application.security.user.JwtUser;
 import ru.liga.application.security.user.UserDetailsImpl;
 
 import javax.servlet.FilterChain;

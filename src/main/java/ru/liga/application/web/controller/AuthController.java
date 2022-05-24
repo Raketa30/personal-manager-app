@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.liga.application.domain.dto.AuthDto;
 import ru.liga.application.security.jwt.JwtTokenProvider;
-import ru.liga.application.security.jwt.JwtUser;
+import ru.liga.application.security.user.JwtUser;
 
 import javax.validation.Valid;
 import java.util.HashMap;
