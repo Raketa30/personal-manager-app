@@ -58,10 +58,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     @Override
-    public UserDetailsService userDetailsServiceBean() throws Exception {
-        UserDetails userDetails = User.withUsername("admin")
-                .password("$2a$08$f1jK2VTaD/NL5imkwK0r4OLUvXaQKuymxvlLoVLtLplVwnuFMOZiG")
-                .roles("ADMIN")
+    public UserDetailsService userDetailsServiceBean() throws Exception { //todo в методе не вылетает исключение
+        UserDetails userDetails = User.withUsername("admin") //todo такое лучше хранить в проперти
+                .password("$2a$08$f1jK2VTaD/NL5imkwK0r4OLUvXaQKuymxvlLoVLtLplVwnuFMOZiG") //todo такое лучше хранить в проперти
+                .roles("ADMIN") //todo перенести в константу
                 .build();
         return new InMemoryUserDetailsManager(userDetails);
     }

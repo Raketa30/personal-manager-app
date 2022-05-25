@@ -15,8 +15,6 @@ import springfox.documentation.spring.web.plugins.Docket;
 
 @Configuration
 @Profile("!prod")
-//todo SwaggerConfig
-// done
 public class SwaggerConfig implements WebMvcConfigurer {
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {

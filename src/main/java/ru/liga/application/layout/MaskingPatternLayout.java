@@ -20,7 +20,7 @@ public class MaskingPatternLayout extends PatternLayout {
         List<String> maskPatterns = List.of(
                 PASSWORD_MASK_PATTERN,
                 SALARY_MASK_PATTERN
-        );
+        ); //todo можно убрать эти переносы
         multilinePattern = Pattern.compile(String.join("|", maskPatterns), Pattern.MULTILINE);
     }
 
@@ -37,7 +37,7 @@ public class MaskingPatternLayout extends PatternLayout {
         Matcher matcher = multilinePattern.matcher(maskBuilder);
         while (matcher.find()) {
             IntStream.rangeClosed(FIRST_MATCHER_INDEX, matcher.groupCount()).forEach(group -> {
-                if (matcher.group(group) != null) {
+                if (matcher.group(group) != null) { //todo в приватный метод
                     IntStream.range(matcher.start(group), matcher.end(group)).forEach(i -> maskBuilder.setCharAt(i, '*'));
                 }
             });

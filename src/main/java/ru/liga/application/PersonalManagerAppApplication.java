@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Import;
 import ru.liga.application.config.SwaggerConfig;
 
 @SpringBootApplication
-//@EnableScheduling
+//@EnableScheduling //todo коммент
 @Import(SwaggerConfig.class)
 public class PersonalManagerAppApplication {
     public static void main(String[] args) {

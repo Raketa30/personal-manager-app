@@ -42,7 +42,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
             JwtUser jwtUser = jwtProvider.getCurrentUser(jwt);
             UserDetails userDetails = new UserDetailsImpl(jwtUser);
             UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails,
-                    null, userDetails.getAuthorities());
+                    null, userDetails.getAuthorities()); //todo не оч перенос либо все параметры переносишь, либо с начинаю с new остальное в строку
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
