@@ -25,8 +25,7 @@ import static ru.liga.application.web.controller.EmployeeController.EMPLOYEES_UR
 public class EmployeeController {
     public static final String EMPLOYEES_URL = "api/v1/employees";
     private final EmployeeService employeeService;
-    //todo чо то логов не вижу и в сервисах тоже)
-    // done
+
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SingleCreateResponse<EmployeeDto>> create(@RequestBody EmployeeDto employeeDto) {
         log.debug("EmployeeController create() employeeDto: {}", employeeDto);

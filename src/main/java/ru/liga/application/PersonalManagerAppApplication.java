@@ -7,8 +7,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import ru.liga.application.config.SwaggerConfig;
 
 @SpringBootApplication
-//todo коммент
-// done
 @EnableScheduling
 @Import(SwaggerConfig.class)
 public class PersonalManagerAppApplication {

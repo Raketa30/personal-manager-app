@@ -36,8 +36,6 @@ public class EmployeeTaskConsumerService {
 
     private boolean isDeletedTask(String taskUuid) {
         int deletedRows = taskRepository.deleteByUuid(taskUuid);
-        //todo что за цифра ?)))
-        // done
         return deletedRows == ONE_TABLE_ROW;
     }
 }

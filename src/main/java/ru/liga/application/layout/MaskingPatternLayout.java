@@ -18,8 +18,6 @@ public class MaskingPatternLayout extends PatternLayout {
     private final Pattern multilinePattern;
 
     public MaskingPatternLayout() {
-        //todo можно убрать эти переносы
-        // done
         List<String> maskPatterns = List.of(PASSWORD_MASK_PATTERN, SALARY_MASK_PATTERN);
         multilinePattern = Pattern.compile(String.join(DELIMITER, maskPatterns), Pattern.MULTILINE);
     }
@@ -29,8 +27,6 @@ public class MaskingPatternLayout extends PatternLayout {
         return maskMessage(super.doLayout(event));
     }
 
-    //todo в приватный метод
-    // done
     private void maskGroup(StringBuilder maskBuilder, Matcher matcher, int group) {
         if (matcher.group(group) != null) {
             IntStream.range(matcher.start(group), matcher.end(group))
