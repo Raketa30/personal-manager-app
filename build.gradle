@@ -30,11 +30,14 @@ dependencies {
     //todo убрать
     // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
-
-
+    // https://mvnrepository.com/artifact/org.apache.velocity/velocity-engine-core
+    implementation 'org.apache.velocity:velocity-engine-core:2.3'
+    // https://mvnrepository.com/artifact/com.itextpdf/itextpdf
+    implementation 'com.itextpdf:itextpdf:5.5.13'
+    // https://mvnrepository.com/artifact/com.itextpdf.tool/xmlworker
+    implementation 'com.itextpdf.tool:xmlworker:5.5.13'
 
     implementation 'org.flywaydb:flyway-core'
-
     implementation 'javax.validation:validation-api:2.0.1.Final'
     //swagger
     implementation 'io.springfox:springfox-boot-starter:3.0.0'
