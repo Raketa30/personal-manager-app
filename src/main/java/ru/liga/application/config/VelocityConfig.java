@@ -5,9 +5,14 @@ import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
+//todo эт для чего ?
+// done
+/**
+ * Velocity Html Template Engine config
+ * html templates used by PdfGeneratorService
+ */
 @Configuration
-public class VelocityConfig { //todo эт для чего ?
+public class VelocityConfig {
     @Bean
     public VelocityEngine velocityEngine() {
         VelocityEngine velocityEngine = new VelocityEngine();

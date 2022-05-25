@@ -29,6 +29,7 @@ public class EmployeePdfGeneratorService implements PdfGeneratorService<Employee
 
     @Override
     public byte[] generatePdf(Employee employee) {
+        log.debug("EmployeePdfGeneratorService generatePdf for employee: {}", employee);
         Template template = velocityEngine.getTemplate(EMPLOYEE_INFO_TEMPLATE);
         VelocityContext context = getVelocityContext(employee);
         StringWriter writer = new StringWriter();
@@ -41,7 +42,6 @@ public class EmployeePdfGeneratorService implements PdfGeneratorService<Employee
             Document document = new Document();
             document.addCreationDate();
             document.addProducer();
-            document.addTitle("HTML to PDF using itext");
             document.setPageSize(PageSize.A4);
             PdfWriter pdfWriter = PdfWriter.getInstance(document, baos);
             document.open();

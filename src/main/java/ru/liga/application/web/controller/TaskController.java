@@ -1,6 +1,7 @@
 package ru.liga.application.web.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,7 @@ import java.net.URI;
 
 import static ru.liga.application.web.controller.TaskController.TASKS_URL;
 
+@Slf4j
 @RestController
 @PreAuthorize("hasAuthority('ADMIN')")
 @RequestMapping(value = TASKS_URL, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -25,6 +27,7 @@ public class TaskController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<TaskDto> create(@RequestBody TaskDto taskDto) {
+        log.debug("TaskController create() taskDto: {}", taskDto);
         TaskDto created = taskService.create(taskDto);
         URI uriOfNewResource = getUriOfNewResource(created);
         return ResponseEntity.created(uriOfNewResource).body(created);
@@ -32,18 +35,21 @@ public class TaskController {
 
     @GetMapping("/{uuid}")
     public ResponseEntity<Task> findByUuid(@PathVariable String uuid) {
+        log.debug("TaskController findByUuid() task uuid: {}", uuid);
         return ResponseEntity.ok(taskService.findByUuid(uuid));
     }
 
     @DeleteMapping("/{uuid}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable String uuid) {
+        log.debug("TaskController delete() task uuid: {}", uuid);
         taskService.delete(uuid);
     }
 
     @PutMapping("/{uuid}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@RequestBody TaskDto taskDto, @PathVariable String uuid) {
+        log.debug("TaskController update() task uuid: {}, taskDto: {}", uuid, taskDto);
         taskService.update(uuid, taskDto);
     }
 
