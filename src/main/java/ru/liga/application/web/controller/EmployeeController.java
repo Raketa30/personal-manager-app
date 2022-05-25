@@ -19,17 +19,17 @@ import static ru.liga.application.web.controller.EmployeeController.EMPLOYEES_UR
 @RequiredArgsConstructor
 @RestController
 @PreAuthorize("hasAuthority('ADMIN')")
-@RequestMapping(value = EMPLOYEES_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = EMPLOYEES_URL)
 public class EmployeeController {
     public static final String EMPLOYEES_URL = "api/v1/employees";
     private final EmployeeService employeeService;
 
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SingleCreateResponse<EmployeeDto>> create(@RequestBody EmployeeDto employeeDto) {
         return ResponseEntity.ok(employeeService.create(employeeDto));
     }
 
-    @PostMapping(value = "/list", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/list", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<MultiCreateResponse<EmployeeDto>> createMulti(@RequestBody List<EmployeeDto> employeeDtoList) {
         return ResponseEntity.ok(employeeService.createAll(employeeDtoList));
     }
@@ -40,14 +40,19 @@ public class EmployeeController {
         employeeService.delete(uuid);
     }
 
-    @GetMapping("/{uuid}")
+    @GetMapping(value = "/{uuid}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<EmployeeDto> getById(@PathVariable String uuid) {
         return ResponseEntity.ok(employeeService.findByUuid(uuid));
     }
 
-    @GetMapping("/list")
+    @GetMapping(value = "/list", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<PageDto<EmployeeDto>> getPageList(@RequestBody PageDto<EmployeeDto> searchValues) {
         return ResponseEntity.ok(employeeService.getPageList(searchValues));
+    }
+
+    @GetMapping(value = "/{uuid}/pdf",consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<byte[]> getPdf(@PathVariable String uuid) {
+        return ResponseEntity.ok(employeeService.getPdf(uuid));
     }
 
     @PutMapping(value = "/{uuid}", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -55,4 +60,5 @@ public class EmployeeController {
     public void update(@RequestBody EmployeeDto employeeDto, @PathVariable String uuid) {
         employeeService.update(uuid, employeeDto);
     }
+
 }
