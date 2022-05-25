@@ -31,7 +31,7 @@ public class EmployeeController {
 
     @PostMapping(value = "/list", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<MultiCreateResponse<EmployeeDto>> createMulti(@RequestBody List<EmployeeDto> employeeDtoList) {
-        return ResponseEntity.ok(employeeService.createAll(employeeDtoList));
+        return ResponseEntity.ok(employeeService.createAll(employeeDtoList)); //todo чо то логов не вижу и в сервисах тоже)
     }
 
     @DeleteMapping("/{uuid}")
