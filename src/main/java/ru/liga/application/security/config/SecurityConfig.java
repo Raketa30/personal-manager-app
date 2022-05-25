@@ -1,6 +1,7 @@
 package ru.liga.application.security.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,6 +25,13 @@ import ru.liga.application.security.filter.ExceptionHandlerFilter;
 @EnableWebSecurity(debug = true)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    private static final String ROLE_ADMIN = "ADMIN";
+
+    @Value("${auth.username}")
+    private String username;
+
+    @Value("${auth.password}")
+    private String password;
 
     private AuthTokenFilter authTokenFilter;
     private ExceptionHandlerFilter exceptionHandlerFilter;
@@ -58,10 +66,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     @Override
-    public UserDetailsService userDetailsServiceBean() throws Exception { //todo в методе не вылетает исключение
-        UserDetails userDetails = User.withUsername("admin") //todo такое лучше хранить в проперти
-                .password("$2a$08$f1jK2VTaD/NL5imkwK0r4OLUvXaQKuymxvlLoVLtLplVwnuFMOZiG") //todo такое лучше хранить в проперти
-                .roles("ADMIN") //todo перенести в константу
+    //todo в методе не вылетает исключение
+    // done
+    public UserDetailsService userDetailsServiceBean() {
+        //todo такое лучше хранить в проперти
+        UserDetails userDetails = User.withUsername(username)
+                //todo такое лучше хранить в проперти
+                .password(password)
+                //todo перенести в константу
+                // done
+                .roles(ROLE_ADMIN)
                 .build();
         return new InMemoryUserDetailsManager(userDetails);
     }

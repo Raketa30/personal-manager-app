@@ -29,7 +29,7 @@ import static ru.liga.application.web.controller.AuthController.AUTH_URL;
 @AllArgsConstructor
 @RequestMapping(AUTH_URL)
 public class AuthController {
-    public static final String AUTH_URL = "/api/v1/auth";
+    public static final String AUTH_URL = "/auth";
     private final AuthenticationManager authenticationManager;
     private final JwtTokenProvider jwtTokenProvider;
 

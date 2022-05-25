@@ -24,10 +24,11 @@ import java.io.IOException;
 @Component
 public class AuthTokenFilter extends OncePerRequestFilter {
     private static final String BEARER_PREFIX = "Bearer ";
+    private static final String AUTH_HEADER = "Authorization";
     private final JwtTokenProvider jwtProvider;
 
     private String getJwtFromRequest(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
+        String bearerToken = request.getHeader(AUTH_HEADER);
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith(BEARER_PREFIX)) {
             return bearerToken.replace(BEARER_PREFIX, "").trim();
         }
@@ -37,12 +38,13 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String jwt = getJwtFromRequest(request);
-
         if (StringUtils.hasText(jwt) && jwtProvider.validate(jwt)) {
             JwtUser jwtUser = jwtProvider.getCurrentUser(jwt);
             UserDetails userDetails = new UserDetailsImpl(jwtUser);
-            UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(userDetails,
-                    null, userDetails.getAuthorities()); //todo не оч перенос либо все параметры переносишь, либо с начинаю с new остальное в строку
+            UsernamePasswordAuthenticationToken authentication =
+                    //todo не оч перенос либо все параметры переносишь, либо с начинаю с new остальное в строку
+                    // done
+                    new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
             authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
             SecurityContextHolder.getContext().setAuthentication(authentication);
         }
