@@ -10,7 +10,7 @@ Content-Type: application/json
 
 ###
 GET http://localhost:8080/api/v1/employees/list
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY1MzQ3ODg2OCwidXNlciI6eyJ1c2VybmFtZSI6ImFkbWluIiwicGFzc3dvcmQiOm51bGx9LCJpYXQiOjE2NTMzOTI0Njh9.YwZsAmTYOwKi2DXCB1jYe0QUDhhxs2ERD68r9fmX6lGIRtoUbsTyqxLYi-smjHRyZUjUWsSdHgAHOMmWy-G7mA
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY1MzU1MTU2MiwidXNlciI6eyJ1c2VybmFtZSI6ImFkbWluIiwicGFzc3dvcmQiOm51bGx9LCJpYXQiOjE2NTM0NjUxNjJ9.b8cuf4hkWtyYJXwVqm4DPq9ckRdb1B7r_YcQzeZMwlzStjqLKmTnf1YiQPgqqY9LWk8ZepR2Km5KWhBwbeB6DQ
 Content-Type: application/json
 
 {
@@ -19,3 +19,8 @@ Content-Type: application/json
   "pageNum": 1,
   "pageSize": 3
 }
+
+### pdf
+GET http://localhost:8080/api/v1/employees/65ff0694-fdc6-4ddd-a897-638acba2c8b0/pdf
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImV4cCI6MTY1MzU1MTU2MiwidXNlciI6eyJ1c2VybmFtZSI6ImFkbWluIiwicGFzc3dvcmQiOm51bGx9LCJpYXQiOjE2NTM0NjUxNjJ9.b8cuf4hkWtyYJXwVqm4DPq9ckRdb1B7r_YcQzeZMwlzStjqLKmTnf1YiQPgqqY9LWk8ZepR2Km5KWhBwbeB6DQ
+Content-Type: application/json

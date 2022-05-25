@@ -36,6 +36,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     private final EmployeeValidatorService employeeValidatorService;
     private final PositionValidatorService positionValidatorService;
     private final EmployeeTaskProducerService producerService;
+    private final PdfGeneratorService<Employee> employeePdfGeneratorService;
 
     @Override
     @Transactional
@@ -102,6 +103,13 @@ public class EmployeeServiceImpl implements EmployeeService {
         pageDto.setPage(page);
         setPageNumbersToPageDto(pageDto);
         return pageDto;
+    }
+
+    @Override
+    public byte[] getPdf(String uuid) {
+        Employee employeeByUuid = employeeRepository.findEmployeeByUuid(uuid)
+                .orElseThrow(() -> new NotFoundException("Employee not found"));
+        return employeePdfGeneratorService.generatePdf(employeeByUuid);
     }
 
     @Override

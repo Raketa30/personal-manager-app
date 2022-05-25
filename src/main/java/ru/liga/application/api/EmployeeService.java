@@ -23,5 +23,7 @@ public interface EmployeeService {
 
     PageDto<EmployeeDto> getPageList(PageDto<EmployeeDto> pageDto);
 
+    byte[] getPdf(String uuid);
+
     void update(String uuid, EmployeeDto dto);
 }
