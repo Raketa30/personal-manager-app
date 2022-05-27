@@ -44,3 +44,11 @@ operation:
   task:
     topic:
       employee: manager.local.employee.task.execute
+
+jwt:
+  secret: sd4a#$21Jsdsl$
+  token-expiration: 86400000
+
+auth:
+  username: admin
+  password: $2a$08$f1jK2VTaD/NL5imkwK0r4OLUvXaQKuymxvlLoVLtLplVwnuFMOZiG

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title></title>
+</head>
+<body>
+<div>
+    <div>Employee uuid: $uuid</div>
+    <div>Firstname: $firstname</div>
+    <div>Lastname: $lastname</div>
+    <div>Position: $position </div>
+    <div>Department: $department</div>
+    <div>
+        Current tasks:
+        <ul>
+            #foreach( $task in $tasks)
+                <li>$task</li>
+            #end
+        </ul>
+    </div>
+
+</div>
+</body>
+</html>

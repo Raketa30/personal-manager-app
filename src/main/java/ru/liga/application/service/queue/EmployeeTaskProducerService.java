@@ -31,8 +31,8 @@ public class EmployeeTaskProducerService {
             task.setUuid(uuid);
             taskRepository.save(task);
             kafkaTemplate.send(topic, uuid, employee);
+            log.info("EmployeeTaskProducerService createTask() task {} created", uuid);
         });
         kafkaTemplate.flush();
     }
-
 }

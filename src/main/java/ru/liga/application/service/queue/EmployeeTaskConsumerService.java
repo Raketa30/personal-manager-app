@@ -14,6 +14,7 @@ import ru.liga.application.repository.KafkaTaskRepository;
 @Service
 @AllArgsConstructor
 public class EmployeeTaskConsumerService {
+    private static final int ONE_TABLE_ROW = 1;
     private final EmployeeRepository employeeRepository;
     private final KafkaTaskRepository taskRepository;
 
@@ -27,10 +28,14 @@ public class EmployeeTaskConsumerService {
     public void saveTaskListener(ConsumerRecord<String, Employee> consumerRecord) {
         Employee employee = consumerRecord.value();
         String taskUuid = consumerRecord.key();
-        int deletedRows = taskRepository.deleteByUuid(taskUuid);
-        if (deletedRows == 1) { //todo волшебная цифра)) Вынеси в константу
+        if (isDeletedTask(taskUuid)) {
             saveEmployee(employee);
+            log.info("EmployeeTaskConsumerService saveTaskListener() task {} saved", taskUuid);
         }
     }
 
+    private boolean isDeletedTask(String taskUuid) {
+        int deletedRows = taskRepository.deleteByUuid(taskUuid);
+        return deletedRows == ONE_TABLE_ROW;
+    }
 }
