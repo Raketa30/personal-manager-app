@@ -1,3 +1,9 @@
+#Logging
+logging:
+  level:
+    root: INFO
+    ru.liga.application: DEBUG
+
 #Datasource
 spring:
   datasource:
@@ -14,10 +20,35 @@ spring:
     password: postgres
 
   jpa:
-    show-sql: true
+    show-sql: false
     properties:
       hibernate:
         format_sql: true
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+  kafka:
+    bootstrap-servers: 127.0.0.1:29092
+    consumer:
+      group-id: employee
+
+
 scheduler:
   one_minute:
     cron: 0/60 * * * * *
+
+
+operation:
+  task:
+    topic:
+      employee: manager.local.employee.task.execute
+
+jwt:
+  secret: sd4a#$21Jsdsl$
+  token-expiration: 86400000
+
+auth:
+  username: admin
+  password: $2a$08$f1jK2VTaD/NL5imkwK0r4OLUvXaQKuymxvlLoVLtLplVwnuFMOZiG

@@ -1,21 +1,29 @@
 package ru.liga.application.api;
 
-import ru.liga.application.domain.soap.employee.EmployeeDto;
-import ru.liga.application.exception.EmployeeValidatorException;
+import ru.liga.application.domain.dto.EmployeeDto;
+import ru.liga.application.domain.dto.PageDto;
+import ru.liga.application.domain.entity.Employee;
+import ru.liga.application.domain.response.MultiCreateResponse;
+import ru.liga.application.domain.response.SingleCreateResponse;
 
-import java.util.Collection;
+import java.util.List;
 
 public interface EmployeeService {
-    void delete(long employeeId);
+    SingleCreateResponse<EmployeeDto> create(EmployeeDto dto);
+
+    MultiCreateResponse<EmployeeDto> createAll(List<EmployeeDto> dtoList);
+
+    void delete(String uuid);
 
     void deleteLastRow();
 
-    Collection<EmployeeDto> findAll();
+    Employee findEntityByUuid(String uuid);
 
-    EmployeeDto findById(long employeeId);
+    EmployeeDto findByUuid(String uuid);
 
-    EmployeeDto save(EmployeeDto employeeDto) throws EmployeeValidatorException;
+    PageDto<EmployeeDto> getPageList(PageDto<EmployeeDto> pageDto);
 
-    EmployeeDto update(EmployeeDto employeeDto) throws EmployeeValidatorException;
+    byte[] getPdf(String uuid);
 
+    void update(String uuid, EmployeeDto dto);
 }

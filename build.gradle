@@ -1,24 +1,15 @@
 plugins {
     id 'org.springframework.boot' version '2.6.7'
     id 'io.spring.dependency-management' version '1.0.11.RELEASE'
-    id 'org.unbroken-dome.xjc' version '1.4.3'
+    id 'org.hidetake.swagger.generator' version '2.19.2'
     id 'java'
-
 }
+
 
 group = 'ru.liga.manager'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 compileJava.options.encoding = 'UTF-8'
-
-configurations {
-    compileOnly {
-        extendsFrom annotationProcessor
-    }
-}
-configurations {
-    jaxb
-}
 
 repositories {
     mavenCentral()
@@ -29,33 +20,26 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-web-services'
+    implementation 'org.springframework.boot:spring-boot-starter-security:2.6.7'
+    implementation 'org.springframework.kafka:spring-kafka:2.8.6'
+    implementation 'io.jsonwebtoken:jjwt:0.9.1'
+    implementation 'org.apache.velocity:velocity-engine-core:2.3'
+    implementation 'com.itextpdf:itextpdf:5.5.13'
+    implementation 'com.itextpdf.tool:xmlworker:5.5.13'
     implementation 'org.flywaydb:flyway-core'
-
-    // https://mvnrepository.com/artifact/org.apache.cxf/cxf-rt-wsdl
-    implementation 'org.apache.cxf:cxf-rt-wsdl:3.5.2'
-
-    // https://mvnrepository.com/artifact/javax.validation/validation-api
     implementation 'javax.validation:validation-api:2.0.1.Final'
+    implementation 'io.springfox:springfox-boot-starter:3.0.0'
+    implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+    implementation 'io.swagger:swagger-annotations:1.6.6'
 
-
-    // implementation 'com.sun.xml.bind:jaxb-core:2.3.0'
-    // implementation 'com.sun.xml.bind:jaxb-impl:2.3.1'
 
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql'
 
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
 }
 
-xjc {
-    includeInMainCompilation = false
-}
-
-sourceSets {
-    main { java { srcDir xjcGenerate.outputDirectory } }
-}
 
 task dockerComposeUp(type: Exec) {
     group = "quick-start"
@@ -67,11 +51,3 @@ task quickStart(type: GradleBuild) {
     group = "quick-start"
     tasks = ['clean', 'bootJar', 'dockerComposeUp']
 }
-
-
-
-
-
-//tasks.named('test') {
-////    useJUnitPlatform()
-//}
