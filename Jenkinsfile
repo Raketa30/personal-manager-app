@@ -12,6 +12,7 @@ pipeline {
                 script {
                     try {
                         sh 'gradle clean test --no-daemon'
+                    } finally {
                     }
                 }
             }
