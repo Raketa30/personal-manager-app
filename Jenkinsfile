@@ -1,14 +1,19 @@
-//В докере развернуть Jenkins.
-//        Работа проходит в два этапа:
-//        1 этап. Сборка и пуш образов в репозиторий
-//- Скачивание из репозитория кода по тегу
-//- Проход тестов. Если тесты падают сборка отменяется.
-//- Сборка проекта.
-//- Пушнуть образы проекта на докерхаб.
-//2 этап. Деплой
-//- подключиться по ssh к виртуальной машине или контейнеру
-//- pull образа из репозитория
-//- запуск образа
+/**
+ В докере развернуть Jenkins.
+ Работа проходит в два этапа:
+
+ 1 этап. Сборка и пуш образов в репозиторий
+ - Скачивание из репозитория кода по тегу
+ - Проход тестов. Если тесты падают сборка отменяется.
+ - Сборка проекта.
+ - Пушнуть образы проекта на докерхаб.
+
+ 2 этап. Деплой
+ - подключиться по ssh к виртуальной машине или контейнеру
+ - pull образа из репозитория
+ - запуск образа
+ */
+
 
 pipeline {
     agent any
@@ -22,41 +27,26 @@ pipeline {
     }
 
     stages {
-        stage('test') {
+        stage('Build and push') {
             steps {
-                script {
-                    try {
-                        sh 'gradle clean test --no-daemon'
-                    } finally {
-                    }
-                }
-            }
-        }
+                echo '************** testing ****************'
+                sh 'gradle clean test --no-daemon'
 
-        stage('build') {
-            steps {
-                script {
-                    sh 'gradle build'
-                    sh 'docker build -t raketa30/manager:latest .'
-                }
-            }
-        }
+                echo '************** building ****************'
+                sh 'gradle clean build'
 
-        stage('Login') {
-
-            steps {
+                echo '************** create docker image and pushing to docker hub ****************'
+                sh 'docker build -t raketa30/manager:latest .'
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
-            }
-        }
-
-        stage('Push') {
-
-            steps {
                 sh 'docker push raketa30/manager:latest'
             }
         }
 
+        stage('Deploy') {
+
+        }
     }
+
     post {
         always {
             sh 'docker logout'
