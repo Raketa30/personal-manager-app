@@ -41,10 +41,6 @@ pipeline {
                 sh 'docker push raketa30/manager:latest'
             }
         }
-
-        stage('Deploy') {
-
-        }
     }
 
     post {
