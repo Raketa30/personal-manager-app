@@ -39,6 +39,7 @@ pipeline {
                 sh 'docker build -t raketa30/manager:latest .'
                 sh 'echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin'
                 sh 'docker push raketa30/manager:latest'
+                echo 'test'
             }
         }
     }
